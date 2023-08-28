@@ -2,3 +2,15 @@ name: VIPTimer
 version: '${version}'
 main: red.oases.viptimer.Main
 api-version: '1.20'
+commands:
+  viptimer:
+    aliases: ['vipt']
+    permission: viptimer.command
+    permission-message: 你需要 viptimer.command 权限才能使用该指令。
+permissions:
+  viptimer.command:
+    default: true
+  viptimer.admin:
+    default: op
+  viptimer.user:
+    default: true
