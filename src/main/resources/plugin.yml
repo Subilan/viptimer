@@ -1,0 +1,4 @@
+name: VIPTimer
+version: '${version}'
+main: red.oases.viptimer.Main
+api-version: '1.20'
