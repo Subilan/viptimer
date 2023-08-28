@@ -1,6 +1,5 @@
 package red.oases.viptimer.Commands;
 
-import net.kyori.adventure.text.Component;
 import org.bukkit.command.CommandSender;
 import red.oases.viptimer.Command;
 import red.oases.viptimer.Utils.Common;
