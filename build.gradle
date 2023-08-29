@@ -23,6 +23,7 @@ dependencies {
     // https://mvnrepository.com/artifact/com.mysql/mysql-connector-j
     runtimeOnly group: 'com.mysql', name: 'mysql-connector-j', version: '8.1.0'
     compileOnly "io.papermc.paper:paper-api:1.20.1-R0.1-SNAPSHOT"
+    implementation files("libs/commons-dbutils-1.8.0.jar")
 }
 
 def targetJavaVersion = 17
