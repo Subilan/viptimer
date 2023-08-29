@@ -2,8 +2,8 @@ package red.oases.viptimer;
 
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import red.oases.viptimer.Annotations.DisableConsole;
-import red.oases.viptimer.Annotations.PermissionLevel;
+import red.oases.viptimer.Extra.Annotations.DisableConsole;
+import red.oases.viptimer.Extra.Annotations.PermissionLevel;
 import red.oases.viptimer.Utils.Logs;
 
 public abstract class Command {
