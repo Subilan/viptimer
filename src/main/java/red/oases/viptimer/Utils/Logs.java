@@ -13,6 +13,10 @@ public class Logs {
     public static void severe(String msg) {
         logger.log(Level.SEVERE, msg);
     }
+
+    public static void warn(String msg) {
+        logger.log(Level.WARNING, msg);
+    }
     public static void info(String msg) {
         logger.log(Level.INFO, msg);
     }

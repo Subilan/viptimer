@@ -1,5 +1,6 @@
 package red.oases.viptimer.Utils;
 
+import org.bukkit.plugin.Plugin;
 import red.oases.viptimer.Extra.Enums.TimeUnit;
 import red.oases.viptimer.Extra.Exceptions.UnexpectedMatchException;
 
@@ -7,6 +8,12 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Common {
+    public static Plugin plugin;
+
+    public static Plugin getPlugin() {
+        return plugin;
+    }
+
     /**
      * 转换对应字符串为非负整数。如果转换失败，返回 0。
      *
