@@ -10,13 +10,16 @@ public class Patterns {
      * 判断是否是合法的 Duration
      */
     public static boolean isDuration(String input) {
-        return DURATION.matcher(input).find();
+        return DURATION.matcher(input).matches();
     }
 
+    @SuppressWarnings("ResultOfMethodCallIgnored")
     public static String[] getDuration(String input) {
+        var matcher = DURATION.matcher(input);
+        matcher.matches();
         return new String[]{
-                DURATION.matcher(input).group(1),
-                DURATION.matcher(input).group(2)
+                matcher.group(1),
+                matcher.group(2)
         };
     }
 }
