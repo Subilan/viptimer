@@ -13,6 +13,9 @@ public class Logs {
     public static void severe(String msg) {
         logger.log(Level.SEVERE, msg);
     }
+    public static void info(String msg) {
+        logger.log(Level.INFO, msg);
+    }
 
     public static void load(Logger logger) {
         Logs.logger = logger;

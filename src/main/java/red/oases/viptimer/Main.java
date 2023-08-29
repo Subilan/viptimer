@@ -17,6 +17,7 @@ public final class Main extends JavaPlugin {
         DB.load();
         Objects.requireNonNull(getCommand("viptimer")).setTabCompleter(new Tab());
         Objects.requireNonNull(getCommand("viptimer")).setExecutor(new Executor());
+        getServer().getPluginManager().registerEvents(new Events(), this);
     }
 
     @Override
