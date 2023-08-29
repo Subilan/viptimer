@@ -5,6 +5,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 import red.oases.viptimer.Commands.CommandGive;
+import red.oases.viptimer.Commands.CommandReload;
 
 public class Executor implements CommandExecutor {
     @Override
@@ -21,6 +22,10 @@ public class Executor implements CommandExecutor {
         switch (args[0]) {
             case "give" -> {
                 return new CommandGive(args, sender).collect();
+            }
+
+            case "reload" -> {
+                return new CommandReload(args, sender).collect();
             }
         }
 
