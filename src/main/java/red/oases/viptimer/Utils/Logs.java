@@ -37,6 +37,6 @@ public class Logs {
     }
 
     public static void send(CommandSender sender, String text) {
-        sender.sendMessage(defaultPrefix().append(Component.text(text)));
+        sender.sendMessage(defaultPrefix().append(Component.text(text).color(NamedTextColor.WHITE)));
     }
 }

@@ -14,6 +14,10 @@ public class Files {
     public static void load(File datafolder) {
         Files.datafolder = datafolder;
         Files.fconfig = new File(datafolder.getAbsolutePath() + "/config.yml");
+        reload();
+    }
+
+    public static void reload() {
         Files.config = YamlConfiguration.loadConfiguration(Files.fconfig);
     }
 

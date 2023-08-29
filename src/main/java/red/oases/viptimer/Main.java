@@ -13,6 +13,7 @@ public final class Main extends JavaPlugin {
 
     @Override
     public void onEnable() {
+        saveDefaultConfig();
         Files.load(this.getDataFolder());
         Logs.load(this.getLogger());
         DB.load();
