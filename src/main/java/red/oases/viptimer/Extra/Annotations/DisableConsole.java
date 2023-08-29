@@ -1,4 +1,4 @@
-package red.oases.viptimer.Annotations;
+package red.oases.viptimer.Extra.Annotations;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
