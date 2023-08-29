@@ -2,63 +2,69 @@ package red.oases.viptimer.Utils;
 
 import org.apache.commons.dbutils.DbUtils;
 import org.bukkit.command.CommandSender;
-import org.jetbrains.annotations.Nullable;
+import red.oases.viptimer.Extra.CursorHandler;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class Data {
 
-    public static @Nullable ResultSet getResultSet(String sql) {
+    public static boolean execute(String sql) {
         var conn = DB.getConnection();
-        if (conn == null) return null;
+        if (conn == null) return false;
         try (var st = conn.createStatement()) {
-            return st.executeQuery(sql);
+            st.execute(sql);
+            return true;
         } catch (SQLException e) {
             Logs.severe(e.getMessage());
-            return null;
+            return false;
+        } finally {
+            DbUtils.closeQuietly(conn);
+        }
+    }
+
+    public static <T> T withResult(String sql, CursorHandler<T> handle) {
+        var conn = DB.getConnection();
+        if (conn == null) throw new RuntimeException("Cannot get connection in method `withResult`.");
+        try (var st = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY)) {
+            var result = st.executeQuery(sql);
+            return handle.run(result);
+        } catch (SQLException e) {
+            Logs.severe(e.getMessage());
+            throw new RuntimeException(e);
         } finally {
             DbUtils.closeQuietly(conn);
         }
     }
 
     public static boolean createRecord(String playername, String type, long until, CommandSender createdBy) {
-        var res = getResultSet("INSERT INTO 'vip_records' (playername, type, until, created_by) VALUES ('%s', '%s', %s, '%s')"
+        return execute("INSERT INTO vip_records (playername, type, until, created_by) VALUES ('%s', '%s', %s, '%s')"
                 .formatted(playername, type, until, createdBy.getName()));
-        return res != null;
+    }
+
+    public static boolean hasResult(String sql) {
+        return withResult(sql, s -> {
+            try {
+                return s.next();
+            } catch (SQLException e) {
+                Logs.severe("Cannot determine if the result is present.");
+                Logs.severe(e.getMessage());
+                return false;
+            }
+        });
     }
 
     /**
      * 判断指定玩家是否有任何 VIP 记录
      */
     public static boolean hasRecord(String playername) {
-        var result = getResultSet("SELECT * FROM 'vip_records' WHERE playername='%s'"
-                .formatted(playername));
-        if (result == null) return false;
-        try {
-            return result.first();
-        } catch (SQLException e) {
-            return false;
-        }
+        return hasResult("SELECT * FROM vip_records WHERE playername='%s'".formatted(playername));
     }
 
     /**
      * 判断指定玩家是否有指定类型的 VIP 记录
      */
     public static boolean hasRecord(String playername, String type) {
-        var conn = DB.getConnection();
-        if (conn == null) return false;
-        try (var st = conn.createStatement()) {
-            var result = st.executeQuery(
-                    "SELECT * FROM 'vip_records' WHERE playername='%s' AND type='%s'"
-                            .formatted(playername, type)
-            );
-            return result.first();
-        } catch (SQLException e) {
-            Logs.severe(e.getMessage());
-            return false;
-        } finally {
-            DbUtils.closeQuietly(conn);
-        }
+        return hasResult("SELECT * FROM vip_records WHERE playername='%s' AND type='%s'".formatted(playername, type));
     }
 }
