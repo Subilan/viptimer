@@ -1,6 +1,7 @@
 CREATE TABLE `vip_records` (
 	`id` INT unsigned NOT NULL AUTO_INCREMENT,
-	`uuid` VARCHAR(36) NOT NULL,
+	`playername` VARCHAR(20) NOT NULL,
+	`uuid` VARCHAR(36) DEFAULT NULL,
 	`type` VARCHAR(10) NOT NULL,
 	`until` BIGINT unsigned NOT NULL,
 	`created_by` VARCHAR(20) NOT NULL,
