@@ -3,6 +3,7 @@ package red.oases.viptimer.Utils;
 import red.oases.viptimer.Extra.Enums.TimeUnit;
 import red.oases.viptimer.Extra.Exceptions.UnexpectedMatchException;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Common {
@@ -42,6 +43,10 @@ public class Common {
             }
         }
         throw new UnexpectedMatchException();
+    }
+
+    public static String formatTimestamp(long epoch) {
+        return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(epoch));
     }
 
     public static boolean isPlayer(String playername) {
