@@ -3,6 +3,7 @@ package red.oases.viptimer;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
+import red.oases.viptimer.Utils.Data;
 import red.oases.viptimer.Utils.Files;
 import red.oases.viptimer.Utils.Logs;
 
@@ -11,10 +12,15 @@ public class Events implements Listener {
     public static void onPlayerJoin(PlayerJoinEvent e) {
         var p = e.getPlayer();
 
-        if (Files.uuid.getKeys(false).contains(p.getName())) return;
+        var name = p.getName();
+        var uuid = p.getUniqueId().toString();
 
-        Files.uuid.set(p.getName(), p.getUniqueId().toString());
-        Files.saveUUID();
-        Logs.info("已将玩家 " + p.getName() + " 的 UUID " + p.getUniqueId().toString() + " 写入本地文件。");
+        if (Data.hasRecord(p.getName())) {
+            if (Data.updateRecordIdentifier(name, uuid)) {
+                Logs.info("已为玩家 %s 更新数据库名称-UUID 映射 %s -> %s".formatted(name, name, uuid));
+            } else {
+                Logs.severe("由于数据库操作失败，无法为玩家 %s 更新数据库名称-UUID 映射，这将导致权限判断问题。");
+            }
+        }
     }
 }

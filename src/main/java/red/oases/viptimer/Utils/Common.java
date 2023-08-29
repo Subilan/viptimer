@@ -48,12 +48,4 @@ public class Common {
     public static String formatTimestamp(long epoch) {
         return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(epoch));
     }
-
-    public static boolean isPlayer(String playername) {
-        return Files.uuid.getKeys(false).contains(playername);
-    }
-
-    public static String getUUID(String playername) {
-        return Files.uuid.getString(playername);
-    }
 }
