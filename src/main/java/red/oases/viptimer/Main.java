@@ -21,10 +21,11 @@ public final class Main extends JavaPlugin {
         Objects.requireNonNull(getCommand("viptimer")).setExecutor(new Executor());
         getServer().getPluginManager().registerEvents(new Events(), this);
         Common.plugin = this;
+        Logs.info("VIPTimer 已加载完毕。");
     }
 
     @Override
     public void onDisable() {
-
+        Logs.info("VIPTimer 已停用。");
     }
 }
