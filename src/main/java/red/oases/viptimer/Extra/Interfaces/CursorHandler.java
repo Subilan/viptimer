@@ -1,4 +1,4 @@
-package red.oases.viptimer.Extra;
+package red.oases.viptimer.Extra.Interfaces;
 
 import java.sql.ResultSet;
 

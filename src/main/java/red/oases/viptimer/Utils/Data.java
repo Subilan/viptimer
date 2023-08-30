@@ -3,7 +3,7 @@ package red.oases.viptimer.Utils;
 import org.apache.commons.dbutils.DbUtils;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.Nullable;
-import red.oases.viptimer.Extra.CursorHandler;
+import red.oases.viptimer.Extra.Interfaces.CursorHandler;
 import red.oases.viptimer.Objects.Record;
 
 import java.sql.ResultSet;
