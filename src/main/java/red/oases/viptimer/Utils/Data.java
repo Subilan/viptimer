@@ -72,9 +72,19 @@ public class Data {
                 .formatted(playername, type));
     }
 
+    public static boolean transferOwnership(String from, String fromType, String to) {
+        return execute("UPDATE vip_records SET playername='%s' WHERE playername='%s' AND type='%s'"
+                .formatted(to, from, fromType));
+    }
+
     public static boolean alterRecord(String playername, String type, long until) {
         return execute("UPDATE vip_records SET until=%s WHERE playername='%s' AND type='%s'"
                 .formatted(until, playername, type));
+    }
+
+    public static boolean alterRecord(String playername, String fromType, String toType) {
+        return execute("UPDATE vip_records SET type='%s' WHERE playername='%s' AND type='%s'"
+                .formatted(toType, playername, fromType));
     }
 
     public static boolean hasResult(String sql) {

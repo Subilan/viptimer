@@ -4,10 +4,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
-import red.oases.viptimer.Commands.CommandGive;
-import red.oases.viptimer.Commands.CommandReload;
-import red.oases.viptimer.Commands.CommandSet;
-import red.oases.viptimer.Commands.CommandTake;
+import red.oases.viptimer.Commands.*;
 
 public class Executor implements CommandExecutor {
     @Override
@@ -36,6 +33,14 @@ public class Executor implements CommandExecutor {
 
             case "reload" -> {
                 return new CommandReload(args, sender).collect();
+            }
+
+            case "chtype" -> {
+                return new CommandChtype(args, sender).collect();
+            }
+
+            case "transown" -> {
+                return new CommandTransown(args, sender).collect();
             }
         }
 
