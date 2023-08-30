@@ -46,4 +46,14 @@ public class Files {
         handler.handle(tasks);
         saveTasks();
     }
+
+    public static void deleteAction(String uuid) {
+        tasks.set("actions." + uuid, null);
+        saveTasks();
+    }
+
+    public static void deleteMessage(String uuid) {
+        tasks.set("messages." + uuid, null);
+        saveTasks();
+    }
 }
