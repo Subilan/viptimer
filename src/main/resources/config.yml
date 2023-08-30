@@ -8,3 +8,8 @@ types:
   - type1
   - type2
   - type3
+commands:
+  give:
+    - say %playername% is now vip!
+  take:
+    - say %playername% is now not a vip!

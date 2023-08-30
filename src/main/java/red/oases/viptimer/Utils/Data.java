@@ -4,10 +4,13 @@ import org.apache.commons.dbutils.DbUtils;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.Nullable;
 import red.oases.viptimer.Extra.Interfaces.CursorHandler;
+import red.oases.viptimer.Objects.ExpirableRecord;
 import red.oases.viptimer.Objects.Record;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Data {
 
@@ -37,6 +40,25 @@ public class Data {
         } finally {
             DbUtils.closeQuietly(conn);
         }
+    }
+
+    public static List<ExpirableRecord> getExpirableRecords() {
+        return withResult("SELECT (playername, type, until) FROM vip_records", r -> {
+            var result = new ArrayList<ExpirableRecord>();
+            try {
+                while (r.next()) {
+                    result.add(new ExpirableRecord(
+                            r.getString("playername"),
+                            r.getString("type"),
+                            r.getLong("until")
+                    ));
+                }
+                return result;
+            } catch (SQLException e) {
+                Logs.severe(e.getMessage());
+                return List.of();
+            }
+        });
     }
 
     public static @Nullable Record getRecord(String playername, String type) {

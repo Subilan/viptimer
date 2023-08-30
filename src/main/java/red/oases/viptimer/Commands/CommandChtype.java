@@ -28,7 +28,7 @@ public class CommandChtype extends Command {
             return true;
         }
 
-        if (!Common.isType(to)) {
+        if (Common.notType(to)) {
             Logs.send(sender, to + " 不是有效的类型。");
             return true;
         }

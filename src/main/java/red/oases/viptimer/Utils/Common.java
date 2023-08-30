@@ -1,6 +1,9 @@
 package red.oases.viptimer.Utils;
 
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
+import org.jetbrains.annotations.NotNull;
 import red.oases.viptimer.Extra.Enums.TimeUnit;
 import red.oases.viptimer.Extra.Exceptions.UnexpectedMatchException;
 
@@ -70,7 +73,25 @@ public class Common {
         return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date);
     }
 
-    public static boolean isType(String t) {
-        return Config.getTypes().contains(t);
+    public static boolean notType(String t) {
+        return !Config.getTypes().contains(t);
+    }
+
+    public static void takePrivileges(@NotNull Player p) {
+        for (var cmd : Config.getTakeCommands()) {
+            Bukkit.getServer().dispatchCommand(
+                    Bukkit.getConsoleSender(),
+                    cmd
+            );
+        }
+    }
+
+    public static void givePrivileges(@NotNull Player p) {
+        for (var cmd : Config.getGiveCommands()) {
+            Bukkit.getServer().dispatchCommand(
+                    Bukkit.getConsoleSender(),
+                    cmd
+            );
+        }
     }
 }

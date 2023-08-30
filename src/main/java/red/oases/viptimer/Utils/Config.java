@@ -19,4 +19,12 @@ public class Config {
     public static List<String> getTypes() {
         return Files.config.getStringList("types");
     }
+
+    public static List<String> getGiveCommands() {
+        return Files.config.getStringList("commands.give");
+    }
+
+    public static List<String> getTakeCommands() {
+        return Files.config.getStringList("commands.take");
+    }
 }

@@ -21,7 +21,7 @@ public class CommandTake extends Command {
         var playername = args[1];
         var type = args[2];
 
-        if (!Common.isType(type)) {
+        if (Common.notType(type)) {
             Logs.send(sender, type + " 不是有效的类型。");
             return true;
         }
