@@ -2,7 +2,9 @@ package red.oases.viptimer.Utils;
 
 import org.apache.commons.dbutils.DbUtils;
 import org.bukkit.command.CommandSender;
+import org.jetbrains.annotations.Nullable;
 import red.oases.viptimer.Extra.CursorHandler;
+import red.oases.viptimer.Objects.Record;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -37,9 +39,42 @@ public class Data {
         }
     }
 
+    public static @Nullable Record getRecord(String playername, String type) {
+        return withResult("SELECT * FROM vip_records WHERE playername='%s' AND type='%s'"
+                .formatted(playername, type), r -> {
+            try {
+                if (r.next()) {
+                    return new Record(
+                            r.getString("playername"),
+                            r.getString("type"),
+                            r.getLong("until"),
+                            r.getString("created_by"),
+                            r.getDate("created_at"),
+                            r.getDate("updated_at")
+                    );
+                } else {
+                    return null;
+                }
+            } catch (SQLException e) {
+                Logs.severe(e.getMessage());
+                return null;
+            }
+        });
+    }
+
     public static boolean createRecord(String playername, String type, long until, CommandSender createdBy) {
         return execute("INSERT INTO vip_records (playername, type, until, created_by) VALUES ('%s', '%s', %s, '%s')"
                 .formatted(playername, type, until, createdBy.getName()));
+    }
+
+    public static boolean deleteRecord(String playername, String type) {
+        return execute("DELETE FROM vip_records WHERE playername='%s' AND type='%s'"
+                .formatted(playername, type));
+    }
+
+    public static boolean alterRecord(String playername, String type, long until) {
+        return execute("UPDATE vip_records SET until=%s WHERE playername='%s' AND type='%s'"
+                .formatted(until, playername, type));
     }
 
     public static boolean hasResult(String sql) {

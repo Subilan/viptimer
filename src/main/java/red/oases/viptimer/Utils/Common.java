@@ -14,6 +14,16 @@ public class Common {
         return plugin;
     }
 
+    public static long mustPositiveLong(String target) {
+        long result;
+        try {
+            result = Long.parseLong(target);
+        } catch (NumberFormatException e) {
+            return 0;
+        }
+        return result;
+    }
+
     /**
      * 转换对应字符串为非负整数。如果转换失败，返回 0。
      *
@@ -53,6 +63,14 @@ public class Common {
     }
 
     public static String formatTimestamp(long epoch) {
-        return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(epoch));
+        return formatDate(new Date(epoch));
+    }
+
+    public static String formatDate(Date date) {
+        return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date);
+    }
+
+    public static boolean isType(String t) {
+        return Config.getTypes().contains(t);
     }
 }
