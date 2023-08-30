@@ -43,4 +43,9 @@ public class Privilege {
     public List<String> getTake() {
         return take;
     }
+
+    public static String getDisplayname(String type) {
+        var result = Files.config.getString("types." + type + ".displayname");
+        return result == null ? type : result;
+    }
 }

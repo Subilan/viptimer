@@ -3,6 +3,7 @@ package red.oases.viptimer.Commands;
 import org.bukkit.command.CommandSender;
 import red.oases.viptimer.Command;
 import red.oases.viptimer.Extra.Enums.TimeUnit;
+import red.oases.viptimer.Objects.Privilege;
 import red.oases.viptimer.Utils.*;
 
 public class CommandGive extends Command {
@@ -52,9 +53,11 @@ public class CommandGive extends Command {
         var until = Common.getUntil(durationNumber, durationUnit);
 
         if (Data.createRecord(player, type, until, sender)) {
-            Logs.send(sender, "成功将 %s 给予 %s，有效期至 %s".formatted(type, player, Common.formatTimestamp(until)));
+            Logs.send(sender, "成功将 %s 给予 %s，有效期至 %s"
+                    .formatted(type, player, Common.formatTimestamp(until)));
 
-            Logs.sendOrLater(player, "你已获得 %s，有效期至 %s".formatted(type, Common.formatTimestamp(until)));
+            Logs.sendOrLater(player, "你已获得 %s，有效期至 %s"
+                    .formatted(Privilege.getDisplayname(type), Common.formatTimestamp(until)));
             Logs.sendOrLater(player, "多谢支持！");
 
             Common.givePrivilegesOrLater(player, type);

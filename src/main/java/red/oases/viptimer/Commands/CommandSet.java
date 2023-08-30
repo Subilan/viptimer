@@ -2,6 +2,7 @@ package red.oases.viptimer.Commands;
 
 import org.bukkit.command.CommandSender;
 import red.oases.viptimer.Command;
+import red.oases.viptimer.Objects.Privilege;
 import red.oases.viptimer.Utils.Common;
 import red.oases.viptimer.Utils.Data;
 import red.oases.viptimer.Utils.Logs;
@@ -75,7 +76,8 @@ public class CommandSet extends Command {
                 Logs.send(sender, "成功将 %s 给予 %s，有效期至 %s"
                         .formatted(type, player, Common.formatTimestamp(until)));
 
-                Logs.sendOrLater(player, "你已获得 %s，有效期至 %s".formatted(type, Common.formatTimestamp(until)));
+                Logs.sendOrLater(player, "你已获得 %s，有效期至 %s"
+                        .formatted(Privilege.getDisplayname(type), Common.formatTimestamp(until)));
                 Logs.sendOrLater(player, "多谢支持！");
 
                 Common.givePrivilegesOrLater(player, type);
