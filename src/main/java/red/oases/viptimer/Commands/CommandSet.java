@@ -7,6 +7,8 @@ import red.oases.viptimer.Utils.Data;
 import red.oases.viptimer.Utils.Logs;
 import red.oases.viptimer.Utils.Patterns;
 
+import java.util.Date;
+
 public class CommandSet extends Command {
     public CommandSet(String[] args, CommandSender sender) {
         super(args, sender);
@@ -41,6 +43,11 @@ public class CommandSet extends Command {
         } else {
             if (Patterns.isDate(_until)) {
                 until = Patterns.getDate(_until).getTime();
+
+                if (until <= new Date().getTime()) {
+                    Logs.send(sender, "不能设置过去的时间。");
+                    return true;
+                }
             } else {
                 Logs.send(sender, "日期或时间戳无效。");
                 return true;
