@@ -54,13 +54,9 @@ public class Delivery {
                 var action = TaskAction.valueOf(act.getString("action"));
 
                 switch (action) {
-                    case GIVE -> {
-                        Common.givePrivileges(p.getName(), targetType);
-                    }
+                    case GIVE -> Common.givePrivileges(p.getName(), targetType);
 
-                    case TAKE -> {
-                        Common.takePrivileges(p.getName(), targetType);
-                    }
+                    case TAKE -> Common.takePrivileges(p.getName(), targetType);
                 }
 
                 Logs.info("Delivery success! action=%s, targetType=%s, targetPlayer=%s."

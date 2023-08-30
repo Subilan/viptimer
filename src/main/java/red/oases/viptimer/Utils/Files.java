@@ -26,14 +26,6 @@ public class Files {
         Files.tasks = YamlConfiguration.loadConfiguration(Files.ftasks);
     }
 
-    public static void saveConfig() {
-        try {
-            Files.config.save(Files.fconfig);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
     public static void saveTasks() {
         try {
             Files.tasks.save(Files.ftasks);
