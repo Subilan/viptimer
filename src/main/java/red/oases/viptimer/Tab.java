@@ -23,6 +23,7 @@ public class Tab implements TabCompleter {
             if (sender.hasPermission("viptimer.admin")) return List.of(
                     "give",
                     "take",
+                    "set",
                     "menu",
                     "test"
             );
@@ -33,7 +34,7 @@ public class Tab implements TabCompleter {
 
         if (args.length == 2) {
             switch (args[0]) {
-                case "give", "take" -> {
+                case "give", "take", "set" -> {
                     return List.of("<playername>");
                 }
             }
@@ -41,7 +42,7 @@ public class Tab implements TabCompleter {
 
         if (args.length == 3) {
             switch (args[0]) {
-                case "give" -> {
+                case "give", "take", "set" -> {
                     return Files.config.getStringList("types");
                 }
             }

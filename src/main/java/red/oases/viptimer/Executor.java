@@ -7,6 +7,7 @@ import org.jetbrains.annotations.NotNull;
 import red.oases.viptimer.Commands.CommandGive;
 import red.oases.viptimer.Commands.CommandReload;
 import red.oases.viptimer.Commands.CommandSet;
+import red.oases.viptimer.Commands.CommandTake;
 
 public class Executor implements CommandExecutor {
     @Override
@@ -27,6 +28,10 @@ public class Executor implements CommandExecutor {
 
             case "set" -> {
                 return new CommandSet(args, sender).collect();
+            }
+
+            case "take" -> {
+                return new CommandTake(args, sender).collect();
             }
 
             case "reload" -> {
