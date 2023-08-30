@@ -33,7 +33,7 @@ public class Data {
         if (conn == null) throw new RuntimeException("Cannot get connection in method `withResult`.");
         try (var st = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY)) {
             var result = st.executeQuery(sql);
-            return handle.run(result);
+            return handle.handler(result);
         } catch (SQLException e) {
             Logs.severe(e.getMessage());
             throw new RuntimeException(e);

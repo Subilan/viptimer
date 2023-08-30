@@ -18,7 +18,7 @@ public class CommandTake extends Command {
             return true;
         }
 
-        var playername = args[1];
+        var player = args[1];
         var type = args[2];
 
         if (Common.notType(type)) {
@@ -26,13 +26,17 @@ public class CommandTake extends Command {
             return true;
         }
 
-        if (!Data.hasRecord(playername, type)) {
-            Logs.send(sender, playername + " 不存在 " + type + " 的相关记录。");
+        if (!Data.hasRecord(player, type)) {
+            Logs.send(sender, player + " 不存在 " + type + " 的相关记录。");
             return true;
         }
 
-        if (Data.deleteRecord(playername, type)) {
-            Logs.send(sender, "已删除 " + playername + " 的 " + type + " 记录。");
+        if (Data.deleteRecord(player, type)) {
+            Logs.send(sender, "已删除 " + player + " 的 " + type + " 记录。");
+
+            Logs.sendOrLater(player, "你的 " + type + " 已被删除。");
+
+            Common.takePrivilegesOrLater(player, type);
         } else {
             Logs.send(sender, "删除失败，请检查控制台。");
         }

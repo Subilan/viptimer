@@ -5,11 +5,9 @@ database:
   port: 3306
   db: "viptimer"
 types:
-  - type1
-  - type2
-  - type3
-commands:
-  give:
-    - say %playername% is now vip!
-  take:
-    - say %playername% is now not a vip!
+  vip1:
+    displayname: ~
+    give:
+      - say $player has gained vip1.
+    take:
+      - say $player was no longer vip1.

@@ -37,6 +37,10 @@ public class CommandChtype extends Command {
             Logs.send(sender, "成功修改记录。");
             Logs.send(sender, "%s.%s -> %s.%s"
                     .formatted(playername, from, playername, to));
+
+            Common.takePrivilegesOrLater(playername, from);
+            Common.givePrivilegesOrLater(playername, to);
+            Logs.sendOrLater(playername, "你的 " + from + " 已经被修改为 " + to + "。");
         } else {
             Logs.send(sender, "数据库操作失败。");
         }

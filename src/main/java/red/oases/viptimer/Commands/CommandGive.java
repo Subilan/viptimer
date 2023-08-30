@@ -21,7 +21,7 @@ public class CommandGive extends Command {
         var type = args[2];
         var duration = args[3];
 
-        if (!Config.getTypes().contains(type)) {
+        if (!Common.getTypes().contains(type)) {
             Logs.send(sender, "错误：类型 " + type + " 不存在。");
             return true;
         }
@@ -53,6 +53,11 @@ public class CommandGive extends Command {
 
         if (Data.createRecord(player, type, until, sender)) {
             Logs.send(sender, "成功将 %s 给予 %s，有效期至 %s".formatted(type, player, Common.formatTimestamp(until)));
+
+            Logs.sendOrLater(player, "你已获得 %s，有效期至 %s".formatted(type, Common.formatTimestamp(until)));
+            Logs.sendOrLater(player, "多谢支持！");
+
+            Common.givePrivilegesOrLater(player, type);
         } else {
             Logs.send(sender, "插入数据时发生问题，请检查后台信息。");
         }

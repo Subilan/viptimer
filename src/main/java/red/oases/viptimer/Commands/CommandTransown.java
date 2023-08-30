@@ -2,6 +2,7 @@ package red.oases.viptimer.Commands;
 
 import org.bukkit.command.CommandSender;
 import red.oases.viptimer.Command;
+import red.oases.viptimer.Utils.Common;
 import red.oases.viptimer.Utils.Data;
 import red.oases.viptimer.Utils.Logs;
 
@@ -30,6 +31,11 @@ public class CommandTransown extends Command {
             Logs.send(sender, "操作成功。");
             Logs.send(sender, "%s.%s -> %s.%s"
                     .formatted(from, fromType, to, fromType));
+
+            Common.takePrivilegesOrLater(from, fromType);
+            Logs.sendOrLater(from, "你的 " + fromType + " 已被转移给 " + to + "。");
+            Common.givePrivilegesOrLater(to, fromType);
+            Logs.sendOrLater(to, from + " 将他的 " + fromType + " 转移给了你。");
         } else {
             Logs.send(sender, "数据库操作失败。");
         }

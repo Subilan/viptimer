@@ -3,12 +3,16 @@ package red.oases.viptimer.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
-import org.jetbrains.annotations.NotNull;
+import red.oases.viptimer.Extra.Enums.TaskAction;
 import red.oases.viptimer.Extra.Enums.TimeUnit;
 import red.oases.viptimer.Extra.Exceptions.UnexpectedMatchException;
+import red.oases.viptimer.Extra.Interfaces.StringHandler;
+import red.oases.viptimer.Objects.Delivery;
+import red.oases.viptimer.Objects.Privilege;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 public class Common {
     public static Plugin plugin;
@@ -74,24 +78,49 @@ public class Common {
     }
 
     public static boolean notType(String t) {
-        return !Config.getTypes().contains(t);
+        return !getTypes().contains(t);
     }
 
-    public static void takePrivileges(@NotNull Player p) {
-        for (var cmd : Config.getTakeCommands()) {
+    public static void executeCommands(List<String> commands, StringHandler handler) {
+        for (var cmd : commands) {
             Bukkit.getServer().dispatchCommand(
                     Bukkit.getConsoleSender(),
-                    cmd
+                    handler.handle(cmd)
             );
         }
     }
 
-    public static void givePrivileges(@NotNull Player p) {
-        for (var cmd : Config.getGiveCommands()) {
-            Bukkit.getServer().dispatchCommand(
-                    Bukkit.getConsoleSender(),
-                    cmd
-            );
+    public static void takePrivileges(String player, String type) {
+        executeCommands(Privilege.of(type).getTake(), cmd -> cmd.replaceAll("\\$player", player));
+    }
+
+    public static void givePrivileges(String player, String type) {
+        executeCommands(Privilege.of(type).getGive(), cmd -> cmd.replaceAll("\\$player", player));
+    }
+
+    public static void takePrivilegesOrLater(String player, String type) {
+        var p = Bukkit.getPlayer(player);
+        if (p != null) {
+            takePrivileges(player, type);
+        } else {
+            Logs.info("A 'TAKE' Delivery is scheduled for %s.%s due to target-offline.".formatted(player, type));
+            Delivery.doLater(player, type, TaskAction.TAKE);
         }
+    }
+
+    public static void givePrivilegesOrLater(String player, String type) {
+        var p = Bukkit.getPlayer(player);
+        if (p != null) {
+            givePrivileges(player, type);
+        } else {
+            Logs.info("A 'GIVE' Delivery is scheduled for %s.%s due to target-offline.".formatted(player, type));
+            Delivery.doLater(player, type, TaskAction.GIVE);
+        }
+    }
+
+    public static List<String> getTypes() {
+        var section = Files.config.getConfigurationSection("types");
+        if (section == null) return List.of();
+        return section.getKeys(false).stream().toList();
     }
 }

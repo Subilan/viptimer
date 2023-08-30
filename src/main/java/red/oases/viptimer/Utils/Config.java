@@ -1,7 +1,5 @@
 package red.oases.viptimer.Utils;
 
-import java.util.List;
-
 public class Config {
 
     public static String getString(String path) {
@@ -16,15 +14,4 @@ public class Config {
         return Files.config.getBoolean(path);
     }
 
-    public static List<String> getTypes() {
-        return Files.config.getStringList("types");
-    }
-
-    public static List<String> getGiveCommands() {
-        return Files.config.getStringList("commands.give");
-    }
-
-    public static List<String> getTakeCommands() {
-        return Files.config.getStringList("commands.take");
-    }
 }

@@ -21,7 +21,7 @@ public class CommandSet extends Command {
             return true;
         }
 
-        var playername = args[1];
+        var player = args[1];
         var type = args[2];
         var _until = args[3];
         var isNew = false;
@@ -30,8 +30,8 @@ public class CommandSet extends Command {
             isNew = args[4].equalsIgnoreCase("new");
         }
 
-        if (!Data.hasRecord(playername, type) && !isNew) {
-            Logs.send(sender, playername + " 不存在 " + type + " 的记录。");
+        if (!Data.hasRecord(player, type) && !isNew) {
+            Logs.send(sender, player + " 不存在 " + type + " 的记录。");
             Logs.send(sender, "如需按此新增，请在指令结尾加上 new。");
             return true;
         }
@@ -54,10 +54,10 @@ public class CommandSet extends Command {
             }
         }
 
-        if (Data.hasRecord(playername, type)) {
-            var record = Data.getRecord(playername, type);
+        if (Data.hasRecord(player, type)) {
+            var record = Data.getRecord(player, type);
             assert record != null;
-            if (Data.alterRecord(playername, type, until)) {
+            if (Data.alterRecord(player, type, until)) {
                 Logs.send(sender, "成功修改记录。");
                 Logs.send(sender, "%s.%s %s -> %s"
                         .formatted(
@@ -71,9 +71,14 @@ public class CommandSet extends Command {
                 return true;
             }
         } else {
-            if (Data.createRecord(playername, type, until, sender)) {
+            if (Data.createRecord(player, type, until, sender)) {
                 Logs.send(sender, "成功将 %s 给予 %s，有效期至 %s"
-                        .formatted(type, playername, Common.formatTimestamp(until)));
+                        .formatted(type, player, Common.formatTimestamp(until)));
+
+                Logs.sendOrLater(player, "你已获得 %s，有效期至 %s".formatted(type, Common.formatTimestamp(until)));
+                Logs.sendOrLater(player, "多谢支持！");
+
+                Common.givePrivilegesOrLater(player, type);
             } else {
                 Logs.send(sender, "数据库操作失败。");
                 return true;

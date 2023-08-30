@@ -16,15 +16,14 @@ public class RecordTimer {
         var now = new Date().getTime();
         for (var r : records) {
             if (now > r.getUntil()) {
-                var p = Bukkit.getServer().getPlayer(r.getPlayername());
-                if (p != null) {
-                    Logs.send(p, "你的 VIP（%s）已于 %s 过期".formatted(r.getType(), Common.formatTimestamp(r.getUntil())));
-                    Logs.send(p, "多谢你的支持！");
-                    Common.takePrivileges(p);
-                }
-                Data.deleteRecord(r.getPlayername(), r.getType());
+                var playername = r.getPlayername();
+                var type = r.getType();
+                Logs.sendOrLater(playername, "你的 VIP（%s）已于 %s 过期".formatted(r.getType(), Common.formatTimestamp(r.getUntil())));
+                Logs.sendOrLater(playername, "多谢你的支持！");
+                Common.takePrivilegesOrLater(playername, type);
+                Data.deleteRecord(playername, type);
                 Logs.info("Deleted record %s.%s due to expiration."
-                        .formatted(r.getPlayername(), r.getType()));
+                        .formatted(playername, type));
             }
         }
     }

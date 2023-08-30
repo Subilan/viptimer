@@ -4,5 +4,5 @@ import java.sql.ResultSet;
 
 @FunctionalInterface
 public interface CursorHandler<T> {
-    T run(ResultSet consume);
+    T handler(ResultSet consume);
 }
