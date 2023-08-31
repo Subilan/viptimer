@@ -4,10 +4,3 @@ database:
   host: "localhost"
   port: 3306
   db: "viptimer"
-types:
-  vip1:
-    displayname: ~
-    give:
-      - say $player has gained vip1.
-    take:
-      - say $player was no longer vip1.

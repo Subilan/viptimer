@@ -1,7 +1,6 @@
 package red.oases.viptimer.Utils;
 
 import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import red.oases.viptimer.Extra.Enums.TaskAction;
 import red.oases.viptimer.Extra.Enums.TimeUnit;
@@ -91,11 +90,11 @@ public class Common {
     }
 
     public static void takePrivileges(String player, String type) {
-        executeCommands(Privilege.of(type).getTake(), cmd -> cmd.replaceAll("\\$player", player));
+        executeCommands(Privilege.of(type).take(), cmd -> cmd.replaceAll("\\$player", player));
     }
 
     public static void givePrivileges(String player, String type) {
-        executeCommands(Privilege.of(type).getGive(), cmd -> cmd.replaceAll("\\$player", player));
+        executeCommands(Privilege.of(type).give(), cmd -> cmd.replaceAll("\\$player", player));
     }
 
     public static void takePrivilegesOrLater(String player, String type) {
@@ -119,8 +118,7 @@ public class Common {
     }
 
     public static List<String> getTypes() {
-        var section = Files.config.getConfigurationSection("types");
-        if (section == null) return List.of();
-        return section.getKeys(false).stream().toList();
+        if (Files.types == null) return List.of();
+        return Files.types.getKeys(false).stream().toList();
     }
 }

@@ -13,17 +13,21 @@ public class Files {
     public static FileConfiguration config;
     public static File ftasks;
     public static FileConfiguration tasks;
+    public static File ftypes;
+    public static FileConfiguration types;
 
     public static void load(File datafolder) {
         Files.datafolder = datafolder;
         Files.fconfig = new File(datafolder.getAbsolutePath() + "/config.yml");
         Files.ftasks = new File(datafolder.getAbsolutePath() + "/tasks.yml");
+        Files.ftypes = new File(datafolder.getAbsolutePath() + "/types.yml");
         reload();
     }
 
     public static void reload() {
         Files.config = YamlConfiguration.loadConfiguration(Files.fconfig);
         Files.tasks = YamlConfiguration.loadConfiguration(Files.ftasks);
+        Files.types = YamlConfiguration.loadConfiguration(Files.ftypes);
     }
 
     public static void saveTasks() {
