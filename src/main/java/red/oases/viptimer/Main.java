@@ -16,14 +16,14 @@ public final class Main extends JavaPlugin {
     @Override
     public void onEnable() {
         saveDefaultConfig();
+        Common.plugin = this;
         Files.load(this.getDataFolder());
         Logs.load(this.getLogger());
         DB.load();
         Objects.requireNonNull(getCommand("viptimer")).setTabCompleter(new Tab());
         Objects.requireNonNull(getCommand("viptimer")).setExecutor(new Executor());
         getServer().getPluginManager().registerEvents(new Events(), this);
-        RecordTimer.run(this);
-        Common.plugin = this;
+        RecordTimer.run();
         Logs.info("VIPTimer 已加载完毕。");
     }
 
