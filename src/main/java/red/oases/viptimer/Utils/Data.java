@@ -43,6 +43,21 @@ public class Data {
         }
     }
 
+    public static boolean increment(String table, String column, String whereCondition) {
+        return withResult("SELECT %s FROM %s WHERE %s".formatted(table, column, whereCondition), r -> {
+            try {
+                while (r.next()) {
+                    var currentVal = r.getInt(column);
+                    if (!execute("UPDATE %s SET %s=%s".formatted(table, column, currentVal + 1))) return false;
+                }
+                return true;
+            } catch (SQLException e) {
+                Logs.severe(e.getMessage());
+                return false;
+            }
+        });
+    }
+
     public static List<ExpirableRecord> getExpirableRecords() {
         return withResult("SELECT playername, type, until FROM vip_records", r -> {
             var result = new ArrayList<ExpirableRecord>();
@@ -94,8 +109,30 @@ public class Data {
         }
     }
 
+    public static @Nullable Distribution getDistributionUpdated() {
+        // Select all the distributions that were updated after they were lastly received by some other instance.
+        // This should only generate one or zero result.
+        return withResult("SELECT * FROM distribution, receipt WHERE distribution.updated_at > receipt.recv_by AND distribution.dist_by = receipt.dist_by", r -> {
+            try {
+                if (r.next()) {
+                    return new Distribution(
+                            r.getString("dist_by"),
+                            r.getString("dist_content"),
+                            r.getDate("updated_at"),
+                            r.getDate("created_at")
+                    );
+                } else {
+                    return null;
+                }
+            } catch (SQLException e) {
+                Logs.severe(e.getMessage());
+                return null;
+            }
+        });
+    }
+
     public static @Nullable Distribution getDistributionUnreceived() {
-        // Select all distributions that were not received by current instance.
+        // Select all the distributions that were not received by current instance.
         // This should only generate one or zero result.
         return withResult("SELECT * FROM distribution WHERE NOT dist_by IN (SELECT dist_by FROM receipt WHERE recv_by='%s')"
                 .formatted(Common.getInstanceId()), r -> {

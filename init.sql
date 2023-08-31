@@ -23,6 +23,7 @@ CREATE TABLE `receipt` (
     `id` INT unsigned NOT NULL AUTO_INCREMENT,
     `dist_by` VARCHAR(36) NOT NULL,
     `recv_by` VARCHAR(36) NOT NULL,
-    `recv_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    `recv_count` INT unsigned DEFAULT 0,
+    `recv_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY (`id`)
 );

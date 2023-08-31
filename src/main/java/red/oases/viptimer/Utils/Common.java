@@ -2,11 +2,13 @@ package red.oases.viptimer.Utils;
 
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.InvalidConfigurationException;
+import org.jetbrains.annotations.NotNull;
 import red.oases.viptimer.Extra.Enums.TaskAction;
 import red.oases.viptimer.Extra.Enums.TimeUnit;
 import red.oases.viptimer.Extra.Exceptions.UnexpectedMatchException;
 import red.oases.viptimer.Extra.Interfaces.StringHandler;
 import red.oases.viptimer.Objects.Delivery;
+import red.oases.viptimer.Objects.Distribution;
 import red.oases.viptimer.Objects.Privilege;
 
 import java.text.SimpleDateFormat;
@@ -138,31 +140,29 @@ public class Common {
         return instId;
     }
 
-    public static void transferTypes() {
-        switch (Const.role) {
-            case DISTRIBUTOR -> {
-                if (!Data.updateDistribution(getInstanceId(), Files.types.saveToString())) {
-                    Logs.severe("Cannot create distribution of instance " + getInstanceId() + ".");
-                }
-            }
-
-            case RECEIVER -> {
-                var distribution = Data.getDistributionUnreceived();
-                if (distribution == null) return;
-                // Backup current instance id.
-                var instanceId = getInstanceId();
-                try {
-                    Files.types.loadFromString(distribution.dist_content());
-                } catch (InvalidConfigurationException e) {
-                    throw new RuntimeException(e.getMessage());
-                }
-                if (!distribution.setReceived(instanceId)) {
-                    Logs.severe("Cannot mark received for Distribution by " + distribution.dist_by() + ", to be received by " + instanceId + ".");
-                }
-                // Override incoming instance id.
-                Files.types.set("inst_id", instanceId);
-                Files.saveTypes();
-            }
+    /**
+     * 将当前 <code>types.yml</code> 内容写入数据库。
+     */
+    public static void distributeTypes() {
+        if (!Data.updateDistribution(getInstanceId(), Files.types.saveToString())) {
+            Logs.severe("Cannot create distribution of instance " + getInstanceId() + ".");
         }
+    }
+
+    /**
+     * 接收指定的 Distribution 对象并将其包含的内容写入本地 <code>types.yml</code>。
+     * @param distribution 指定的对象
+     */
+    public static void receiveTypeDistribution(@NotNull Distribution distribution) {
+        // Backup current instance id.
+        var instanceId = getInstanceId();
+        try {
+            Files.types.loadFromString(distribution.dist_content());
+        } catch (InvalidConfigurationException e) {
+            throw new RuntimeException(e.getMessage());
+        }
+        // Override incoming instance id.
+        Files.types.set("inst_id", instanceId);
+        Files.saveTypes();
     }
 }
