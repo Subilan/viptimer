@@ -18,6 +18,7 @@ public final class Main extends JavaPlugin {
         saveDefaultConfig();
         Files.load(this.getDataFolder());
         Logs.load(this.getLogger());
+        DB.load();
         Objects.requireNonNull(getCommand("viptimer")).setTabCompleter(new Tab());
         Objects.requireNonNull(getCommand("viptimer")).setExecutor(new Executor());
         getServer().getPluginManager().registerEvents(new Events(), this);

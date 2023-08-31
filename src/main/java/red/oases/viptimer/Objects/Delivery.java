@@ -5,6 +5,7 @@ import org.jetbrains.annotations.NotNull;
 import red.oases.viptimer.Extra.Enums.TaskAction;
 import red.oases.viptimer.Extra.Interfaces.SectionHandler;
 import red.oases.viptimer.Utils.Common;
+import red.oases.viptimer.Utils.Data;
 import red.oases.viptimer.Utils.Files;
 import red.oases.viptimer.Utils.Logs;
 
@@ -54,7 +55,12 @@ public class Delivery {
                 var action = TaskAction.valueOf(act.getString("action"));
 
                 switch (action) {
-                    case GIVE -> Common.givePrivileges(p.getName(), targetType);
+                    case GIVE -> {
+                        Common.givePrivileges(p.getName(), targetType);
+                        if (!Data.setDelivered(p.getName(), targetType, true)) {
+                            Logs.info("Cannot set delivery status, please check the console.");
+                        }
+                    }
 
                     case TAKE -> Common.takePrivileges(p.getName(), targetType);
                 }

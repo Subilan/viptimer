@@ -43,7 +43,7 @@ public class Data {
     }
 
     public static List<ExpirableRecord> getExpirableRecords() {
-        return withResult("SELECT (playername, type, until) FROM vip_records", r -> {
+        return withResult("SELECT playername, type, until FROM vip_records", r -> {
             var result = new ArrayList<ExpirableRecord>();
             try {
                 while (r.next()) {
@@ -107,6 +107,11 @@ public class Data {
     public static boolean alterRecord(String playername, String fromType, String toType) {
         return execute("UPDATE vip_records SET type='%s' WHERE playername='%s' AND type='%s'"
                 .formatted(toType, playername, fromType));
+    }
+
+    public static boolean setDelivered(String playername, String type, boolean d) {
+        return execute("UPDATE vip_records SET delivered=%s WHERE playername='%s' AND type='%s'"
+                .formatted(d, playername, type));
     }
 
     public static boolean hasResult(String sql) {
