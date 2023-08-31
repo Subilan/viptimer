@@ -32,7 +32,11 @@ public class DB {
         }
     }
 
-    public static void shutdown() {
+    public static void close() {
         dataSource.close();
+    }
+
+    public static boolean isClosed() {
+        return dataSource.isClosed();
     }
 }

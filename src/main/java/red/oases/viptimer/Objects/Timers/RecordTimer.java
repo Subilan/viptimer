@@ -8,13 +8,12 @@ import red.oases.viptimer.Utils.Data;
 import red.oases.viptimer.Utils.Logs;
 
 import java.util.Date;
-import java.util.List;
-import java.util.concurrent.TimeUnit;
 
-public class RecordTimer {
+public class RecordTimer extends CancellableTimer {
 
-    public static void update(List<ExpirableRecord> records) {
+    protected void execute() {
         var now = new Date().getTime();
+        var records = Data.getExpirableRecords();
         for (var r : records) {
             if (now > r.getUntil()) {
                 var playername = r.getPlayername();
@@ -27,15 +26,7 @@ public class RecordTimer {
                     Logs.info("Deleted record %s.%s due to expiration."
                             .formatted(playername, type));
                 });
-
             }
         }
-    }
-
-    public static void run() {
-        Bukkit.getAsyncScheduler().runAtFixedRate(Const.plugin, s -> {
-            RecordTimer.update(Data.getExpirableRecords());
-        }, 0, 1, TimeUnit.SECONDS);
-        Logs.info("已注册权限到期检查计时器。");
     }
 }

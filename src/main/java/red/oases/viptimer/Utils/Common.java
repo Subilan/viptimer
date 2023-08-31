@@ -143,17 +143,39 @@ public class Common {
     /**
      * 将当前 <code>types.yml</code> 内容写入数据库。
      */
-    public static void distributeTypes() {
-        if (!Data.updateDistribution(getInstanceId(), Files.types.saveToString())) {
+    public static void updateDistribution() {
+        if (Data.updateDistribution(getInstanceId(), Files.types.saveToString())) {
+            Logs.info("Successfully updated distribution.");
+        } else {
             Logs.severe("Cannot create distribution of instance " + getInstanceId() + ".");
         }
     }
 
     /**
-     * 接收指定的 Distribution 对象并将其包含的内容写入本地 <code>types.yml</code>。
+     * 将对应的 Distribution 标记为已接收，但此状态并不代表以后不会再接收。<br/>
+     * 此函数将会
+     * <ul>
+     *     <li>在不存在 receipt 记录的时候创建，并将 recv_count 加一。</li>
+     *     <li>如果已经存在，则直接将 recv_count 加一。</li>
+     * </ul>
+     */
+    public static boolean markReceived(String distId) {
+        if (Data.hasReceipt(distId)) {
+            return Data.increaseRecvCount(distId);
+        } else {
+            if (Data.createReceipt(distId)) {
+                return Data.increaseRecvCount(distId);
+            } else {
+                return false;
+            }
+        }
+    }
+
+    /**
+     * 将 Distribution 对象包含的内容写入本地 <code>types.yml</code>。
      * @param distribution 指定的对象
      */
-    public static void receiveTypeDistribution(@NotNull Distribution distribution) {
+    public static void writeDistribution(@NotNull Distribution distribution) {
         // Backup current instance id.
         var instanceId = getInstanceId();
         try {

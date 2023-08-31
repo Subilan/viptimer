@@ -12,6 +12,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
+import java.util.stream.Stream;
 
 public class Data {
 
@@ -43,8 +45,12 @@ public class Data {
         }
     }
 
+    public static boolean increaseRecvCount(String distId) {
+        return increment("receipt", "recv_count", "dist_by='%s' AND recv_by='%s'".formatted(distId, Common.getInstanceId()));
+    }
+
     public static boolean increment(String table, String column, String whereCondition) {
-        return withResult("SELECT %s FROM %s WHERE %s".formatted(table, column, whereCondition), r -> {
+        return withResult("SELECT %s FROM %s WHERE %s".formatted(column, table, whereCondition), r -> {
             try {
                 while (r.next()) {
                     var currentVal = r.getInt(column);
@@ -109,50 +115,54 @@ public class Data {
         }
     }
 
-    public static @Nullable Distribution getDistributionUpdated() {
+    /**
+     * 从数据库中<b>目前所需</b>的 Distribution 对象<br/><br/>
+     *
+     * 目前所需的是指已经经过更新的或者尚未接收到的对象。
+     */
+    public static List<Distribution> getDistributions() {
+
+        Function<ResultSet, List<Distribution>> collectDistribution = r -> {
+            var result = new ArrayList<Distribution>();
+            try {
+                while (r.next()) {
+                    result.add(new Distribution(
+                            r.getString("dist_by"),
+                            r.getString("dist_content"),
+                            r.getDate("updated_at"),
+                            r.getDate("created_at")
+                    ));
+                }
+            } catch (SQLException e) {
+                Logs.severe(e.getMessage());
+            }
+            return result;
+        };
+
         // Select all the distributions that were updated after they were lastly received by some other instance.
         // This should only generate one or zero result.
-        return withResult("SELECT * FROM distribution, receipt WHERE distribution.updated_at > receipt.recv_by AND distribution.dist_by = receipt.dist_by", r -> {
-            try {
-                if (r.next()) {
-                    return new Distribution(
-                            r.getString("dist_by"),
-                            r.getString("dist_content"),
-                            r.getDate("updated_at"),
-                            r.getDate("created_at")
-                    );
-                } else {
-                    return null;
-                }
-            } catch (SQLException e) {
-                Logs.severe(e.getMessage());
-                return null;
-            }
-        });
+        var distNotUpdated = withResult(
+                "SELECT * FROM distribution, receipt WHERE distribution.updated_at > receipt.recv_at AND distribution.dist_by = receipt.dist_by",
+                collectDistribution::apply
+        );
+        // Select all the distributions that were not received by the current instance.
+        // This should only generate one or zero result.
+        var distNotReceived = withResult(
+                "SELECT * FROM distribution WHERE NOT dist_by IN (SELECT dist_by FROM receipt WHERE recv_by='%s')".formatted(Common.getInstanceId()),
+                collectDistribution::apply
+        );
+
+        return Stream.concat(distNotReceived.stream(), distNotUpdated.stream()).toList();
     }
 
-    public static @Nullable Distribution getDistributionUnreceived() {
-        // Select all the distributions that were not received by current instance.
-        // This should only generate one or zero result.
-        return withResult("SELECT * FROM distribution WHERE NOT dist_by IN (SELECT dist_by FROM receipt WHERE recv_by='%s')"
-                .formatted(Common.getInstanceId()), r -> {
-            try {
-                if (r.next()) {
-                    return new Distribution(
-                            r.getString("dist_by"),
-                            r.getString("dist_content"),
-                            r.getDate("updated_at"),
-                            r.getDate("created_at")
-                    );
-                } else {
-                    return null;
-                }
-            } catch (SQLException e) {
-                Logs.severe(e.getMessage());
-                return null;
-            }
-        });
+    public static boolean hasReceipt(String distId) {
+        return hasResult("SELECT * FROM receipt WHERE dist_by='%s' AND recv_by='%s'".formatted(distId, Common.getInstanceId()));
     }
+
+    public static boolean createReceipt(String distId) {
+        return execute("INSERT INTO receipt (dist_by, recv_by) VALUES ('%s', '%s')".formatted(distId, Common.getInstanceId()));
+    }
+
 
     public static boolean createRecord(String playername, String type, long until, CommandSender createdBy) {
         return execute("INSERT INTO vip_records (playername, type, until, created_by) VALUES ('%s', '%s', %s, '%s')"

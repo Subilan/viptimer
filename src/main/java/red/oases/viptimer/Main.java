@@ -8,9 +8,13 @@ import red.oases.viptimer.Objects.Timers.RecordTimer;
 import red.oases.viptimer.Utils.*;
 
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 
 @SuppressWarnings("unused")
 public final class Main extends JavaPlugin {
+    public static RecordTimer recordTimer;
+    public static DistributionTimer distributionTimer;
+    public static ReceiptTimer receiptTimer;
 
     @Override
     public void onEnable() {
@@ -23,19 +27,24 @@ public final class Main extends JavaPlugin {
         Files.load(this.getDataFolder());
         Logs.load(this.getLogger());
         DB.load();
-        RecordTimer.run();
+        recordTimer = new RecordTimer();
+        distributionTimer = new DistributionTimer();
+        receiptTimer = new ReceiptTimer();
+
+        recordTimer.run(1, TimeUnit.SECONDS);
+        Logs.info("已注册权限到期检查重复逻辑。");
 
         Const.role = Role.of(Files.config.getString("role"));
         switch (Const.role) {
             case DISTRIBUTOR -> {
-                Logs.info("已准备分发数据。");
                 Common.updateDistribution();
-                DistributionTimer.run();
+                distributionTimer.run(1, TimeUnit.SECONDS);
+                Logs.info("已注册数据分发重复逻辑。");
             }
 
             case RECEIVER -> {
-                Logs.info("已准备接收数据。");
-                ReceiptTimer.run();
+                receiptTimer.run(1, TimeUnit.SECONDS);
+                Logs.info("已注册数据接收重复逻辑。");
             }
         }
 
@@ -45,7 +54,10 @@ public final class Main extends JavaPlugin {
     @Override
     public void onDisable() {
         Logs.info("VIPTimer 已停用。");
+        receiptTimer.cancel();
+        distributionTimer.cancel();
+        recordTimer.cancel();
+        DB.close();
         Logs.info("数据库资源已释放。");
-        DB.shutdown();
     }
 }
