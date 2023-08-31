@@ -28,6 +28,11 @@ public class CommandChtype extends Command {
             return true;
         }
 
+        if (Data.hasRecord(playername, to)) {
+            Logs.send(sender, playername + " 已经存在 " + to + " 的记录。");
+            return true;
+        }
+
         if (Common.notType(to)) {
             Logs.send(sender, to + " 不是有效的类型。");
             return true;
