@@ -2,8 +2,9 @@ package red.oases.viptimer;
 
 import org.bukkit.plugin.java.JavaPlugin;
 import red.oases.viptimer.Extra.Enums.Role;
-import red.oases.viptimer.Objects.DistributionTimer;
-import red.oases.viptimer.Objects.RecordTimer;
+import red.oases.viptimer.Objects.Timers.DistributionTimer;
+import red.oases.viptimer.Objects.Timers.ReceiptTimer;
+import red.oases.viptimer.Objects.Timers.RecordTimer;
 import red.oases.viptimer.Utils.*;
 
 import java.util.Objects;
@@ -42,6 +43,7 @@ public final class Main extends JavaPlugin {
                         Logs.severe("Cannot mark Distribution created by " + distribution.dist_by() + " and to be received by " + instanceId + " as received.");
                     }
                 }
+                ReceiptTimer.run();
             }
         }
 

@@ -1,6 +1,7 @@
-package red.oases.viptimer.Objects;
+package red.oases.viptimer.Objects.Timers;
 
 import org.bukkit.Bukkit;
+import red.oases.viptimer.Objects.ExpirableRecord;
 import red.oases.viptimer.Utils.Common;
 import red.oases.viptimer.Utils.Const;
 import red.oases.viptimer.Utils.Data;

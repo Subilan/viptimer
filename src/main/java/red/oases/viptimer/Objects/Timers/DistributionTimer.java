@@ -1,4 +1,4 @@
-package red.oases.viptimer.Objects;
+package red.oases.viptimer.Objects.Timers;
 
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
