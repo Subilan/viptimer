@@ -2,6 +2,7 @@ package red.oases.viptimer.Objects;
 
 import org.bukkit.Bukkit;
 import red.oases.viptimer.Utils.Common;
+import red.oases.viptimer.Utils.Const;
 import red.oases.viptimer.Utils.Data;
 import red.oases.viptimer.Utils.Logs;
 
@@ -17,7 +18,7 @@ public class RecordTimer {
             if (now > r.getUntil()) {
                 var playername = r.getPlayername();
                 var type = r.getType();
-                Bukkit.getScheduler().runTask(Common.plugin, s -> {
+                Bukkit.getScheduler().runTask(Const.plugin, s -> {
                     Logs.sendOrLater(playername, "你的 VIP（%s）已于 %s 过期".formatted(r.getType(), Common.formatTimestamp(r.getUntil())));
                     Logs.sendOrLater(playername, "多谢你的支持！");
                     Common.takePrivilegesOrLater(playername, type);
@@ -31,7 +32,7 @@ public class RecordTimer {
     }
 
     public static void run() {
-        Bukkit.getAsyncScheduler().runAtFixedRate(Common.plugin, s -> {
+        Bukkit.getAsyncScheduler().runAtFixedRate(Const.plugin, s -> {
             RecordTimer.update(Data.getExpirableRecords());
         }, 0, 1, TimeUnit.SECONDS);
         Logs.info("已注册权限到期检查计时器。");

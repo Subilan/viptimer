@@ -9,3 +9,20 @@ CREATE TABLE `vip_records` (
 	`delivered` BOOLEAN DEFAULT FALSE,
 	PRIMARY KEY (`id`)
 );
+
+CREATE TABLE `distribution` (
+    `id` INT unsigned NOT NULL AUTO_INCREMENT,
+    `dist_by` VARCHAR(36) NOT NULL,
+    `dist_content` TEXT NOT NULL,
+    `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    PRIMARY KEY (`id`)
+);
+
+CREATE TABLE `receipt` (
+    `id` INT unsigned NOT NULL AUTO_INCREMENT,
+    `dist_by` VARCHAR(36) NOT NULL,
+    `recv_by` VARCHAR(36) NOT NULL,
+    `recv_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (`id`)
+);

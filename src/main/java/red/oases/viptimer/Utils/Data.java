@@ -4,6 +4,7 @@ import org.apache.commons.dbutils.DbUtils;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.Nullable;
 import red.oases.viptimer.Extra.Interfaces.CursorHandler;
+import red.oases.viptimer.Objects.Distribution;
 import red.oases.viptimer.Objects.ExpirableRecord;
 import red.oases.viptimer.Objects.Record;
 
@@ -73,6 +74,38 @@ public class Data {
                             r.getString("created_by"),
                             r.getDate("created_at"),
                             r.getDate("updated_at")
+                    );
+                } else {
+                    return null;
+                }
+            } catch (SQLException e) {
+                Logs.severe(e.getMessage());
+                return null;
+            }
+        });
+    }
+
+    public static boolean updateDistribution(String instId, String distContent) {
+        if (hasResult("SELECT * FROM distribution WHERE dist_by='%s'".formatted(instId))) {
+            return execute("UPDATE distribution SET dist_content='%s'".formatted(distContent));
+        } else {
+            return execute("INSERT INTO distribution (dist_by, dist_content) VALUES ('%s', '%s')"
+                    .formatted(instId, distContent));
+        }
+    }
+
+    public static @Nullable Distribution getDistributionUnreceived() {
+        // Select all distributions that were not received by current instance.
+        // This should only generate one or zero result.
+        return withResult("SELECT * FROM distribution WHERE NOT dist_by IN (SELECT dist_by FROM receipt WHERE recv_by='%s')"
+                .formatted(Common.getInstanceId()), r -> {
+            try {
+                if (r.next()) {
+                    return new Distribution(
+                            r.getString("dist_by"),
+                            r.getString("dist_content"),
+                            r.getDate("updated_at"),
+                            r.getDate("created_at")
                     );
                 } else {
                     return null;

@@ -6,7 +6,7 @@ import java.util.List;
 
 public record Privilege(String type, String displayname, List<String> give, List<String> take) {
     public static Privilege of(String type) {
-        var section = Files.types;
+        var section = Files.types.getConfigurationSection("types");
         if (section == null) throw new RuntimeException("Invalid name for Privilege initialization.");
         return new Privilege(
                 type,
@@ -17,7 +17,7 @@ public record Privilege(String type, String displayname, List<String> give, List
     }
 
     public static String getDisplayname(String type) {
-        var result = Files.types.getString(type + ".displayname");
+        var result = Files.types.getString("types." + type + ".displayname");
         return result == null ? type : result;
     }
 }

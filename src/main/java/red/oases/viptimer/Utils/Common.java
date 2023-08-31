@@ -1,7 +1,7 @@
 package red.oases.viptimer.Utils;
 
 import org.bukkit.Bukkit;
-import org.bukkit.plugin.Plugin;
+import org.bukkit.configuration.InvalidConfigurationException;
 import red.oases.viptimer.Extra.Enums.TaskAction;
 import red.oases.viptimer.Extra.Enums.TimeUnit;
 import red.oases.viptimer.Extra.Exceptions.UnexpectedMatchException;
@@ -12,14 +12,9 @@ import red.oases.viptimer.Objects.Privilege;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 public class Common {
-    public static Plugin plugin;
-
-    public static Plugin getPlugin() {
-        return plugin;
-    }
-
     public static long mustPositiveLong(String target) {
         long result;
         try {
@@ -118,7 +113,56 @@ public class Common {
     }
 
     public static List<String> getTypes() {
-        if (Files.types == null) return List.of();
-        return Files.types.getKeys(false).stream().toList();
+        var section = Files.types.getConfigurationSection("types");
+        if (section == null) return List.of();
+        return section.getKeys(false).stream().toList();
+    }
+
+    /**
+     * 获取当前插件所在服务器对应的 instance id
+     * 如果不存在则会创建，储存在 types.yml 内
+     */
+    @SuppressWarnings("ResultOfMethodCallIgnored")
+    public static String getInstanceId() {
+        var instId = Files.types.getString("inst_id");
+
+        if (instId != null) {
+            UUID.fromString(instId);
+            // throw IllegalArgumentException if not valid.
+        } else {
+            instId = UUID.randomUUID().toString();
+            Files.types.set("inst_id", instId);
+            Files.saveTypes();
+        }
+
+        return instId;
+    }
+
+    public static void transferTypes() {
+        switch (Const.role) {
+            case DISTRIBUTOR -> {
+                if (!Data.updateDistribution(getInstanceId(), Files.types.saveToString())) {
+                    Logs.severe("Cannot create distribution of instance " + getInstanceId() + ".");
+                }
+            }
+
+            case RECEIVER -> {
+                var distribution = Data.getDistributionUnreceived();
+                if (distribution == null) return;
+                // Backup current instance id.
+                var instanceId = getInstanceId();
+                try {
+                    Files.types.loadFromString(distribution.dist_content());
+                } catch (InvalidConfigurationException e) {
+                    throw new RuntimeException(e.getMessage());
+                }
+                if (!distribution.setReceived(instanceId)) {
+                    Logs.severe("Cannot mark received for Distribution by " + distribution.dist_by() + ", to be received by " + instanceId + ".");
+                }
+                // Override incoming instance id.
+                Files.types.set("inst_id", instanceId);
+                Files.saveTypes();
+            }
+        }
     }
 }

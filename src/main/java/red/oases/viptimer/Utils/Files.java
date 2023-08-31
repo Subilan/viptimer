@@ -38,6 +38,14 @@ public class Files {
         }
     }
 
+    public static void saveTypes() {
+        try {
+            Files.types.save(Files.ftypes);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public static void withSaveTasks(SectionHandler handler) {
         handler.handle(tasks);
         saveTasks();
