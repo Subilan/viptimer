@@ -29,20 +29,12 @@ public final class Main extends JavaPlugin {
         switch (Const.role) {
             case DISTRIBUTOR -> {
                 Logs.info("已准备分发数据。");
-                Common.distributeTypes();
+                Common.updateDistribution();
                 DistributionTimer.run();
             }
 
             case RECEIVER -> {
                 Logs.info("已准备接收数据。");
-                var distribution = Data.getDistributionUnreceived();
-                if (distribution != null) {
-                    var instanceId = Common.getInstanceId();
-                    Common.receiveTypeDistribution(distribution);
-                    if (!distribution.setReceived(instanceId)) {
-                        Logs.severe("Cannot mark Distribution created by " + distribution.dist_by() + " and to be received by " + instanceId + " as received.");
-                    }
-                }
                 ReceiptTimer.run();
             }
         }
@@ -53,5 +45,7 @@ public final class Main extends JavaPlugin {
     @Override
     public void onDisable() {
         Logs.info("VIPTimer 已停用。");
+        Logs.info("数据库资源已释放。");
+        DB.shutdown();
     }
 }

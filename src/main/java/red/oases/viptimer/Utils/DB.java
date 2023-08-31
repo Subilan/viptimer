@@ -19,16 +19,20 @@ public class DB {
         ));
         config.setUsername(Config.getString("database.username"));
         config.setPassword(Config.getString("database.password"));
+        config.setMaximumPoolSize(20);
         dataSource = new HikariDataSource(config);
     }
 
     public static @Nullable Connection getConnection() {
-
         try {
             return dataSource.getConnection();
         } catch (SQLException e) {
             Logs.severe(e.getMessage());
             throw new RuntimeException(e);
         }
+    }
+
+    public static void shutdown() {
+        dataSource.close();
     }
 }
