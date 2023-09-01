@@ -3,6 +3,7 @@ package red.oases.viptimer.Utils;
 import org.apache.commons.dbutils.DbUtils;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.Nullable;
+import red.oases.viptimer.Extra.Enums.TaskAction;
 import red.oases.viptimer.Extra.Interfaces.CursorHandler;
 import red.oases.viptimer.Objects.Distribution;
 import red.oases.viptimer.Objects.ExpirableRecord;
@@ -117,7 +118,7 @@ public class Data {
 
     /**
      * 从数据库中<b>目前所需</b>的 Distribution 对象<br/><br/>
-     *
+     * <p>
      * 目前所需的是指已经经过更新的或者尚未接收到的对象。
      */
     public static List<Distribution> getDistributions() {
@@ -155,6 +156,21 @@ public class Data {
         return Stream.concat(distNotReceived.stream(), distNotUpdated.stream()).toList();
     }
 
+    public static boolean createDelivery(String playername, String type) {
+        return execute("INSERT INTO delivery (playername, type, inst_id) VALUES ('%s', '%s', '%s')"
+                .formatted(playername, type, Common.getInstanceId()));
+    }
+
+    public static boolean deleteDelivery(String playername, String type) {
+        return execute("DELETE FROM delivery WHERE playername='%s' AND type='%s' AND inst_id='%s'"
+                .formatted(playername, type, Common.getInstanceId()));
+    }
+
+    public static boolean hasDelivery(String playername, String type) {
+        return hasResult("SELECT * FROM delivery WHERE playername='%s' AND type='%s' AND inst_id='%s'"
+                .formatted(playername, type, Common.getInstanceId()));
+    }
+
     public static boolean hasReceipt(String distId) {
         return hasResult("SELECT * FROM receipt WHERE dist_by='%s' AND recv_by='%s'".formatted(distId, Common.getInstanceId()));
     }
@@ -189,11 +205,9 @@ public class Data {
                 .formatted(toType, playername, fromType));
     }
 
-    public static boolean setDelivered(String playername, String type, boolean d) {
-        return execute("UPDATE vip_records SET delivered=%s WHERE playername='%s' AND type='%s'"
-                .formatted(d, playername, type));
-    }
-
+    /**
+     * 判断给出的 SQL 语句是否有执行结果
+     */
     public static boolean hasResult(String sql) {
         return withResult(sql, s -> {
             try {

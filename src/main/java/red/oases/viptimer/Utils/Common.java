@@ -2,18 +2,19 @@ package red.oases.viptimer.Utils;
 
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.InvalidConfigurationException;
+import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import red.oases.viptimer.Extra.Enums.TaskAction;
 import red.oases.viptimer.Extra.Enums.TimeUnit;
 import red.oases.viptimer.Extra.Exceptions.UnexpectedMatchException;
 import red.oases.viptimer.Extra.Interfaces.StringHandler;
-import red.oases.viptimer.Objects.Delivery;
 import red.oases.viptimer.Objects.Distribution;
 import red.oases.viptimer.Objects.Privilege;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 public class Common {
@@ -100,7 +101,7 @@ public class Common {
             takePrivileges(player, type);
         } else {
             Logs.info("A 'TAKE' Delivery is scheduled for %s.%s due to target-offline.".formatted(player, type));
-            Delivery.doLater(player, type, TaskAction.TAKE);
+            Tasks.createAction(player, type, TaskAction.TAKE);
         }
     }
 
@@ -110,7 +111,7 @@ public class Common {
             givePrivileges(player, type);
         } else {
             Logs.info("A 'GIVE' Delivery is scheduled for %s.%s due to target-offline.".formatted(player, type));
-            Delivery.doLater(player, type, TaskAction.GIVE);
+            Tasks.createAction(player, type, TaskAction.GIVE);
         }
     }
 
@@ -173,6 +174,7 @@ public class Common {
 
     /**
      * 将 Distribution 对象包含的内容写入本地 <code>types.yml</code>。
+     *
      * @param distribution 指定的对象
      */
     public static void writeDistribution(@NotNull Distribution distribution) {
@@ -186,5 +188,82 @@ public class Common {
         // Override incoming instance id.
         Files.types.set("inst_id", instanceId);
         Files.saveTypes();
+    }
+
+    /**
+     * 读取本地 <code>tasks.yml</code> 内的待发消息，并发送给玩家 p。
+     */
+    public static void sendDelayedMessageFor(Player p) {
+        var messages = Files.tasks.getConfigurationSection("messages");
+
+        if (messages == null) return;
+
+        for (var k : messages.getKeys(false)) {
+            var msg = messages.getConfigurationSection(k);
+            if (msg == null) continue;
+
+            try {
+                var targetPlayer = Objects.requireNonNull(msg.getString("target_player"));
+                if (!targetPlayer.equalsIgnoreCase(p.getName())) continue;
+                var message = Objects.requireNonNull(msg.getString("message"));
+
+                Logs.send(p, message);
+
+                Logs.info("Delivery success! Message sent for player " + targetPlayer + ".");
+                Files.deleteMessage(k);
+                Logs.info("Deleted message record " + k + ".");
+            } catch (NullPointerException e) {
+                Logs.severe("Could not find enough data when iterating through MESSAGES.");
+                Logs.severe("Problem key: " + k + ".");
+            }
+        }
+    }
+
+    /**
+     * 读取本地 <code>tasks.yml</code> 内的任务，并为玩家 p 执行。
+     */
+    public static void doDelayedActionFor(@NotNull Player p) {
+        var actions = Files.tasks.getConfigurationSection("actions");
+
+        if (actions == null) return;
+
+        for (var k : actions.getKeys(false)) {
+            var act = actions.getConfigurationSection(k);
+            if (act == null) continue;
+            try {
+                var targetPlayer = Objects.requireNonNull(act.getString("target_player"));
+                if (!targetPlayer.equalsIgnoreCase(p.getName())) continue;
+                var targetType = Objects.requireNonNull(act.getString("target_type"));
+                var action = TaskAction.valueOf(act.getString("action"));
+
+                switch (action) {
+                    case GIVE -> {
+                        if (!Data.hasDelivery(p.getName(), targetType)) givePrivileges(p.getName(), targetType);
+                        else Logs.warn("Detected invalid delayed GIVE action. No changes were made.");
+                        if (!Data.createDelivery(p.getName(), targetType)) {
+                            Logs.info("Cannot create delivery record.");
+                        }
+                    }
+                    case TAKE -> {
+                        if (Data.hasDelivery(p.getName(), targetType)) takePrivileges(p.getName(), targetType);
+                        else Logs.warn("Detected invalid delayed TAKE action. No changes were made.");
+                        if (!Data.deleteDelivery(p.getName(), targetType)) {
+                            Logs.info("Cannot create delivery record.");
+                        }
+                    }
+                }
+
+                Logs.info("Delivery finished with [action=%s, targetType=%s, targetPlayer=%s]."
+                        .formatted(action, targetType, targetPlayer));
+                Files.deleteAction(k);
+                Logs.info("Deleted action record " + k + ".");
+            } catch (NullPointerException e) {
+                Logs.severe("Could not find enough data when iterating through ACTIONS.");
+                Logs.severe("Problem key: " + k + ".");
+            } catch (IllegalArgumentException e) {
+                Logs.severe("Invalid string form of TaskAction, please do not alter anything without confirmation!");
+                Logs.severe("Problem key: " + k + ".");
+            }
+        }
     }
 }

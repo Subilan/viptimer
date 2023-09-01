@@ -6,7 +6,6 @@ CREATE TABLE `vip_records` (
 	`created_by` VARCHAR(20) NOT NULL,
 	`created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 	`updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-	`delivered` BOOLEAN DEFAULT FALSE,
 	PRIMARY KEY (`id`)
 );
 
@@ -25,5 +24,14 @@ CREATE TABLE `receipt` (
     `recv_by` VARCHAR(36) NOT NULL,
     `recv_count` INT unsigned DEFAULT 0,
     `recv_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    PRIMARY KEY (`id`)
+);
+
+CREATE TABLE `delivery` (
+    `id` INT unsigned NOT NULL AUTO_INCREMENT,
+    `inst_id` VARCHAR(36) NOT NULL,
+    `playername` VARCHAR(20) NOT NULL,
+    `type` VARCHAR(10) NOT NULL,
+    `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (`id`)
 );

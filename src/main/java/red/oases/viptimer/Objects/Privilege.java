@@ -10,7 +10,7 @@ public record Privilege(String type, String displayname, List<String> give, List
         if (section == null) throw new RuntimeException("Invalid name for Privilege initialization.");
         return new Privilege(
                 type,
-                section.getString("displayname"),
+                section.getString("displayname", type),
                 section.getStringList("give"),
                 section.getStringList("take")
         );

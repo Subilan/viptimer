@@ -4,7 +4,6 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
-import red.oases.viptimer.Objects.Delivery;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -40,7 +39,7 @@ public class Logs {
         if (p != null) {
             send(p, text);
         } else {
-            Delivery.sendLater(player, text);
+            Tasks.createMessage(player, text);
         }
     }
 
