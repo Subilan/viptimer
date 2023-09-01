@@ -220,13 +220,6 @@ public class Data {
     }
 
     /**
-     * 判断指定玩家是否有任何 VIP 记录
-     */
-    public static boolean hasRecord(String playername) {
-        return hasResult("SELECT * FROM vip_records WHERE playername='%s'".formatted(playername));
-    }
-
-    /**
      * 判断指定玩家是否有指定类型的 VIP 记录
      */
     public static boolean hasRecord(String playername, String type) {
