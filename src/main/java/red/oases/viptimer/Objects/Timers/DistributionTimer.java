@@ -11,6 +11,7 @@ import red.oases.viptimer.Utils.Files;
  */
 public class DistributionTimer extends CancellableTimer {
 
+    @Override
     protected void execute() {
         if (Files.types.saveToString().equals(YamlConfiguration.loadConfiguration(Files.ftypes).saveToString())) return;
         Files.types = YamlConfiguration.loadConfiguration(Files.ftypes);

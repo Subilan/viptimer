@@ -2,6 +2,7 @@ package red.oases.viptimer;
 
 import org.bukkit.plugin.java.JavaPlugin;
 import red.oases.viptimer.Extra.Enums.Role;
+import red.oases.viptimer.Objects.Timers.DeliveryTimer;
 import red.oases.viptimer.Objects.Timers.DistributionTimer;
 import red.oases.viptimer.Objects.Timers.ReceiptTimer;
 import red.oases.viptimer.Objects.Timers.RecordTimer;
@@ -15,6 +16,7 @@ public final class Main extends JavaPlugin {
     public static RecordTimer recordTimer;
     public static DistributionTimer distributionTimer;
     public static ReceiptTimer receiptTimer;
+    public static DeliveryTimer deliveryTimer;
 
     @Override
     public void onEnable() {
@@ -30,7 +32,10 @@ public final class Main extends JavaPlugin {
         recordTimer = new RecordTimer();
         distributionTimer = new DistributionTimer();
         receiptTimer = new ReceiptTimer();
+        deliveryTimer = new DeliveryTimer();
 
+        deliveryTimer.run(1, TimeUnit.SECONDS);
+        Logs.info("已注册权限同步检查重复逻辑。");
         recordTimer.run(1, TimeUnit.SECONDS);
         Logs.info("已注册权限到期检查重复逻辑。");
 

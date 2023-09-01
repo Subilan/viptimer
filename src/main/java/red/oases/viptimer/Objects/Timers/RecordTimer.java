@@ -10,6 +10,7 @@ import java.util.Date;
 
 public class RecordTimer extends CancellableTimer {
 
+    @Override
     protected void execute() {
         var now = new Date().getTime();
         var records = Data.getExpirableRecords();
@@ -22,6 +23,7 @@ public class RecordTimer extends CancellableTimer {
                     Logs.sendOrLater(playername, "多谢你的支持！");
                     Common.takePrivilegesOrLater(playername, type);
                     Data.deleteRecord(playername, type);
+                    Data.deleteDelivery(playername, type);
                     Logs.info("Deleted record %s.%s due to expiration."
                             .formatted(playername, type));
                 });

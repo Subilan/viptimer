@@ -8,11 +8,11 @@ import java.util.Date;
 
 /**
  * <b>Receipt Timer</b><br/><br/>
- * <p>
  * 提供一个可重复运行的任务，此任务用于检查当前实例中已经 receive 的相关 distribution 是否已经被修改，或者是否有新的 distribution 需要接收，
  * 如果是，则将数据库内的最新数据同步到本地，并在 receipt 表中更新相关记录。
  */
 public class ReceiptTimer extends CancellableTimer {
+    @Override
     protected void execute() {
         for (var d : Data.getDistributions()) {
             Common.writeDistribution(d);
