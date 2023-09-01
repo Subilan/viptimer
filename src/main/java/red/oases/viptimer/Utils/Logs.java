@@ -2,7 +2,6 @@ package red.oases.viptimer.Utils;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
-import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 
 import java.util.logging.Level;

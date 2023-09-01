@@ -3,7 +3,6 @@ package red.oases.viptimer.Commands;
 import org.bukkit.command.CommandSender;
 import red.oases.viptimer.Command;
 import red.oases.viptimer.Extra.Enums.TimeUnit;
-import red.oases.viptimer.Objects.Privilege;
 import red.oases.viptimer.Utils.*;
 
 public class CommandGive extends Command {

@@ -2,7 +2,6 @@ package red.oases.viptimer.Commands;
 
 import org.bukkit.command.CommandSender;
 import red.oases.viptimer.Command;
-import red.oases.viptimer.Objects.Privilege;
 import red.oases.viptimer.Utils.*;
 
 import java.util.Date;

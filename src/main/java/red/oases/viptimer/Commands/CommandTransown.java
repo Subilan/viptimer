@@ -2,8 +2,6 @@ package red.oases.viptimer.Commands;
 
 import org.bukkit.command.CommandSender;
 import red.oases.viptimer.Command;
-import red.oases.viptimer.Objects.Privilege;
-import red.oases.viptimer.Utils.Common;
 import red.oases.viptimer.Utils.Data;
 import red.oases.viptimer.Utils.Logic;
 import red.oases.viptimer.Utils.Logs;

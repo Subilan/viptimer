@@ -15,9 +15,7 @@ public class Tasks {
         for (var k : messages.getKeys(false)) {
             try {
                 if (Objects.requireNonNull(messages.getString("identifier")).equalsIgnoreCase(identifier)) {
-                    Files.withSaveTasks(t -> {
-                        t.set("messages." + k, null);
-                    });
+                    Files.withSaveTasks(t -> t.set("messages." + k, null));
                 }
             } catch (NullPointerException ignored) {}
         }
@@ -32,9 +30,7 @@ public class Tasks {
                 if (Objects.requireNonNull(actions.getString(k + ".target_player")).equalsIgnoreCase(playername)
                         && Objects.requireNonNull(actions.getString(".target_type")).equalsIgnoreCase(type)
                         && Objects.requireNonNull(actions.getString(".action")).equalsIgnoreCase(actionType.toString())) {
-                    Files.withSaveTasks(t -> {
-                        t.set("actions." + k, null);
-                    });
+                    Files.withSaveTasks(t -> t.set("actions." + k, null));
                 }
             } catch (NullPointerException ignored) {}
         }

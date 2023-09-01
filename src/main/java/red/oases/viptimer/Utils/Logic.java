@@ -44,11 +44,9 @@ public class Logic {
                 );
             }
 
-            case TAKE -> {
-                message = message.formatted(
-                        Privilege.getDisplayname(type)
-                );
-            }
+            case TAKE -> message = message.formatted(
+                    Privilege.getDisplayname(type)
+            );
         }
 
         var p = Bukkit.getServer().getPlayer(playername);

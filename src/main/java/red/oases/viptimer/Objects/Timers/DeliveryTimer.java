@@ -1,7 +1,6 @@
 package red.oases.viptimer.Objects.Timers;
 
 import org.bukkit.Bukkit;
-import red.oases.viptimer.Objects.Privilege;
 import red.oases.viptimer.Utils.Common;
 import red.oases.viptimer.Utils.Data;
 import red.oases.viptimer.Utils.Logic;
