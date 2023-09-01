@@ -240,12 +240,12 @@ public class Common {
 
                 switch (action) {
                     case GIVE -> {
-                        if (!Data.hasDelivery(p.getName(), targetType)) Logic.givePlayer(p.getName(), targetType);
+                        if (!Data.hasDelivery(p.getName(), targetType)) Privileges.giveToPlayer(p.getName(), targetType);
                         else Logs.warn("Delivery is already made. No changes were made.");
                     }
 
                     case TAKE -> {
-                        if (Data.hasDelivery(p.getName(), targetType)) Logic.takePlayer(p.getName(), targetType);
+                        if (Data.hasDelivery(p.getName(), targetType)) Privileges.takeFromPlayer(p.getName(), targetType);
                         else Logs.warn("Delivery is already removed. No changes were made.");
                     }
                 }

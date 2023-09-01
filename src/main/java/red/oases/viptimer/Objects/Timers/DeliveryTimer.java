@@ -3,7 +3,7 @@ package red.oases.viptimer.Objects.Timers;
 import org.bukkit.Bukkit;
 import red.oases.viptimer.Utils.Common;
 import red.oases.viptimer.Utils.Data;
-import red.oases.viptimer.Utils.Logic;
+import red.oases.viptimer.Utils.Privileges;
 import red.oases.viptimer.Utils.Logs;
 
 /**
@@ -18,13 +18,13 @@ public class DeliveryTimer extends CancellableTimer {
                 if (Data.hasRecord(p.getName(), t) && !Data.hasDelivery(p.getName(), t)) {
                     Logs.info(p.getName() + "'s " + t + " is not delivered on this server.");
                     Logs.info("Delivery completed!");
-                    Logic.givePlayer(p.getName(), t);
+                    Privileges.giveToPlayer(p.getName(), t);
                 }
 
                 if (!Data.hasRecord(p.getName(), t) && Data.hasDelivery(p.getName(), t)) {
                     Logs.info(p.getName() + "'s " + t + " is not removed on this server.");
                     Logs.info("Removal completed!");
-                    Logic.takePlayer(p.getName(), t);
+                    Privileges.takeFromPlayer(p.getName(), t);
                 }
             }
         }

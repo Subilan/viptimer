@@ -3,7 +3,7 @@ package red.oases.viptimer.Commands;
 import org.bukkit.command.CommandSender;
 import red.oases.viptimer.Command;
 import red.oases.viptimer.Utils.Data;
-import red.oases.viptimer.Utils.Logic;
+import red.oases.viptimer.Utils.Privileges;
 import red.oases.viptimer.Utils.Logs;
 
 public class CommandTransown extends Command {
@@ -32,8 +32,8 @@ public class CommandTransown extends Command {
             Logs.send(sender, "%s.%s -> %s.%s"
                     .formatted(from, fromType, to, fromType));
 
-            Logic.takePlayer(from, fromType);
-            Logic.givePlayer(to, fromType);
+            Privileges.takeFromPlayer(from, fromType);
+            Privileges.giveToPlayer(to, fromType);
         } else {
             Logs.send(sender, "数据库操作失败。");
         }

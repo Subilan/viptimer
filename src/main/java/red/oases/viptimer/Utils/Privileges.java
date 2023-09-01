@@ -5,10 +5,8 @@ import red.oases.viptimer.Extra.Enums.MessageType;
 import red.oases.viptimer.Extra.Enums.TaskAction;
 import red.oases.viptimer.Objects.Privilege;
 
-public class Logic {
-
-
-    public static void takePlayer(String playername, String type) {
+public class Privileges {
+    public static void takeFromPlayer(String playername, String type) {
         Common.takePrivilegesOrLater(playername, type);
         Tasks.cancelAction(playername, type, TaskAction.GIVE);
         Data.deleteRecord(playername, type);
@@ -17,10 +15,9 @@ public class Logic {
         cancelMessagePattern(playername, type, MessageType.GIVE);
     }
 
-    public static void givePlayer(String playername, String type) {
+    public static void giveToPlayer(String playername, String type) {
         Common.givePrivilegesOrLater(playername, type);
         Tasks.cancelAction(playername, type, TaskAction.TAKE);
-
         sendMessagePatternOrLater(playername, type, MessageType.GIVE);
         if (Config.getBoolean("thanks")) sendMessagePatternOrLater(playername, type, MessageType.THANKS);
         cancelMessagePattern(playername, type, MessageType.TAKE);

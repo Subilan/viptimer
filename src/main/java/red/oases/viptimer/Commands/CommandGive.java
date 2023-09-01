@@ -55,7 +55,7 @@ public class CommandGive extends Command {
             Logs.send(sender, "成功将 %s 给予 %s，有效期至 %s"
                     .formatted(type, player, Common.formatTimestamp(until)));
 
-            Logic.givePlayer(player, type);
+            Privileges.giveToPlayer(player, type);
         } else {
             Logs.send(sender, "插入数据时发生问题，请检查后台信息。");
         }

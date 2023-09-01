@@ -33,7 +33,7 @@ public class CommandTake extends Command {
             Logs.send(sender, "已删除 %s 的 %s 记录。"
                     .formatted(player, type));
 
-            Logic.takePlayer(player, type);
+            Privileges.takeFromPlayer(player, type);
         } else {
             Logs.send(sender, "删除失败，请检查控制台。");
         }

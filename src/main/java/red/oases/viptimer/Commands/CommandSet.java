@@ -72,7 +72,7 @@ public class CommandSet extends Command {
                 Logs.send(sender, "成功将 %s 给予 %s，有效期至 %s"
                         .formatted(type, player, Common.formatTimestamp(until)));
 
-                Logic.givePlayer(player, type);
+                Privileges.giveToPlayer(player, type);
             } else {
                 Logs.send(sender, "数据库操作失败。");
                 return true;

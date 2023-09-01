@@ -16,7 +16,7 @@ public class RecordTimer extends CancellableTimer {
                 var playername = r.getPlayername();
                 var type = r.getType();
                 Bukkit.getScheduler().runTask(Const.plugin, s -> {
-                    Logic.takePlayer(playername, type);
+                    Privileges.takeFromPlayer(playername, type);
                     Logs.info("Deleted record %s.%s due to expiration."
                             .formatted(playername, type));
                 });
