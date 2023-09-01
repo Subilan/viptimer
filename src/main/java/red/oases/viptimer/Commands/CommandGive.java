@@ -60,7 +60,7 @@ public class CommandGive extends Command {
                     .formatted(Privilege.getDisplayname(type), Common.formatTimestamp(until)));
             Logs.sendOrLater(player, "多谢支持！");
 
-            Common.givePrivilegesOrLater(player, type);
+            Logic.givePlayer(player, type);
         } else {
             Logs.send(sender, "插入数据时发生问题，请检查后台信息。");
         }

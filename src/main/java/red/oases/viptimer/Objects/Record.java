@@ -1,6 +1,6 @@
 package red.oases.viptimer.Objects;
 
-import java.sql.Date;
+import java.util.Date;
 
 public class Record extends ExpirableRecord {
     private final String created_by;
@@ -12,6 +12,10 @@ public class Record extends ExpirableRecord {
         this.created_at = created_at;
         this.created_by = created_by;
         this.updated_at = updated_at;
+    }
+
+    public boolean isExpired() {
+        return new Date().getTime() > this.getUntil();
     }
 
     public String getCreatedBy() {

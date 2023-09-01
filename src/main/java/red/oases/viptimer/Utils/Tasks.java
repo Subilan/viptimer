@@ -3,9 +3,27 @@ package red.oases.viptimer.Utils;
 import red.oases.viptimer.Extra.Enums.TaskAction;
 import red.oases.viptimer.Extra.Interfaces.SectionHandler;
 
+import java.util.Objects;
 import java.util.UUID;
 
 public class Tasks {
+    public static void cancelAction(String playername, String type, TaskAction actionType) {
+        var actions = Files.tasks.getConfigurationSection("actions");
+        if (actions == null) return;
+
+        for (var k : actions.getKeys(false)) {
+            try {
+                if (Objects.requireNonNull(actions.getString(k + ".target_player")).equalsIgnoreCase(playername)
+                        && Objects.requireNonNull(actions.getString(".target_type")).equalsIgnoreCase(type)
+                        && Objects.requireNonNull(actions.getString(".action")).equalsIgnoreCase(actionType.toString())) {
+                    Files.withSaveTasks(t -> {
+                        t.set("actions." + k, null);
+                    });
+                }
+            } catch (NullPointerException ignored) {}
+        }
+    }
+
     public static void create(String sectionName, SectionHandler handler) {
         var uuid = UUID.randomUUID().toString();
         Files.withSaveTasks(t -> {

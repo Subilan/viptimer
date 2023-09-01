@@ -5,6 +5,7 @@ import red.oases.viptimer.Command;
 import red.oases.viptimer.Objects.Privilege;
 import red.oases.viptimer.Utils.Common;
 import red.oases.viptimer.Utils.Data;
+import red.oases.viptimer.Utils.Logic;
 import red.oases.viptimer.Utils.Logs;
 
 public class CommandTransown extends Command {
@@ -33,10 +34,10 @@ public class CommandTransown extends Command {
             Logs.send(sender, "%s.%s -> %s.%s"
                     .formatted(from, fromType, to, fromType));
 
-            Common.takePrivilegesOrLater(from, fromType);
+            Logic.takePlayer(from, fromType);
             Logs.sendOrLater(from, "你的 %s 已被转移给 %s。"
                     .formatted(Privilege.getDisplayname(fromType), to));
-            Common.givePrivilegesOrLater(to, fromType);
+            Logic.givePlayer(to, fromType);
             Logs.sendOrLater(to, "%s 将他的 %s 转移给了你。"
                     .formatted(from, Privilege.getDisplayname(fromType)));
         } else {

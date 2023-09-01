@@ -3,10 +3,7 @@ package red.oases.viptimer.Commands;
 import org.bukkit.command.CommandSender;
 import red.oases.viptimer.Command;
 import red.oases.viptimer.Objects.Privilege;
-import red.oases.viptimer.Utils.Common;
-import red.oases.viptimer.Utils.Data;
-import red.oases.viptimer.Utils.Logs;
-import red.oases.viptimer.Utils.Patterns;
+import red.oases.viptimer.Utils.*;
 
 import java.util.Date;
 
@@ -80,7 +77,7 @@ public class CommandSet extends Command {
                         .formatted(Privilege.getDisplayname(type), Common.formatTimestamp(until)));
                 Logs.sendOrLater(player, "多谢支持！");
 
-                Common.givePrivilegesOrLater(player, type);
+                Logic.givePlayer(player, type);
             } else {
                 Logs.send(sender, "数据库操作失败。");
                 return true;

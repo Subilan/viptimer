@@ -238,22 +238,17 @@ public class Common {
 
                 switch (action) {
                     case GIVE -> {
-                        if (!Data.hasDelivery(p.getName(), targetType)) givePrivileges(p.getName(), targetType);
-                        else Logs.warn("Detected invalid delayed GIVE action. No changes were made.");
-                        if (!Data.createDelivery(p.getName(), targetType)) {
-                            Logs.info("Cannot create delivery record.");
-                        }
+                        if (!Data.hasDelivery(p.getName(), targetType)) Logic.givePlayer(p.getName(), targetType);
+                        else Logs.warn("Delivery is already made. No changes were made.");
                     }
+
                     case TAKE -> {
-                        if (Data.hasDelivery(p.getName(), targetType)) takePrivileges(p.getName(), targetType);
-                        else Logs.warn("Detected invalid delayed TAKE action. No changes were made.");
-                        if (!Data.deleteDelivery(p.getName(), targetType)) {
-                            Logs.info("Cannot create delivery record.");
-                        }
+                        if (Data.hasDelivery(p.getName(), targetType)) Logic.takePlayer(p.getName(), targetType);
+                        else Logs.warn("Delivery is already removed. No changes were made.");
                     }
                 }
 
-                Logs.info("Delivery finished with [action=%s, targetType=%s, targetPlayer=%s]."
+                Logs.info("Delayed action finished with [action=%s, targetType=%s, targetPlayer=%s]."
                         .formatted(action, targetType, targetPlayer));
                 Files.deleteAction(k);
                 Logs.info("Deleted action record " + k + ".");

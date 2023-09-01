@@ -2,10 +2,9 @@ package red.oases.viptimer.Commands;
 
 import org.bukkit.command.CommandSender;
 import red.oases.viptimer.Command;
+import red.oases.viptimer.Extra.Enums.TaskAction;
 import red.oases.viptimer.Objects.Privilege;
-import red.oases.viptimer.Utils.Common;
-import red.oases.viptimer.Utils.Data;
-import red.oases.viptimer.Utils.Logs;
+import red.oases.viptimer.Utils.*;
 
 public class CommandTake extends Command {
     public CommandTake(String[] args, CommandSender sender) {
@@ -35,11 +34,9 @@ public class CommandTake extends Command {
         if (Data.deleteRecord(player, type)) {
             Logs.send(sender, "已删除 %s 的 %s 记录。"
                     .formatted(player, type));
-
             Logs.sendOrLater(player, "你的 %s 已被删除。"
                     .formatted(Privilege.getDisplayname(type)));
-
-            Common.takePrivilegesOrLater(player, type);
+            Logic.takePlayer(player, type);
         } else {
             Logs.send(sender, "删除失败，请检查控制台。");
         }

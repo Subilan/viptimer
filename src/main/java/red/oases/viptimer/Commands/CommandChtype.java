@@ -4,6 +4,7 @@ import org.bukkit.command.CommandSender;
 import red.oases.viptimer.Command;
 import red.oases.viptimer.Utils.Common;
 import red.oases.viptimer.Utils.Data;
+import red.oases.viptimer.Utils.Logic;
 import red.oases.viptimer.Utils.Logs;
 
 public class CommandChtype extends Command {
@@ -43,8 +44,9 @@ public class CommandChtype extends Command {
             Logs.send(sender, "%s.%s -> %s.%s"
                     .formatted(playername, from, playername, to));
 
-            Common.takePrivilegesOrLater(playername, from);
-            Common.givePrivilegesOrLater(playername, to);
+            Logic.takePlayer(playername, from);
+            Logic.givePlayer(playername, to);
+
             Logs.sendOrLater(playername, "你的 " + from + " 已经被修改为 " + to + "。");
         } else {
             Logs.send(sender, "数据库操作失败。");
