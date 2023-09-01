@@ -12,7 +12,6 @@ public class Logic {
         Common.takePrivilegesOrLater(playername, type);
         Tasks.cancelAction(playername, type, TaskAction.GIVE);
         Data.deleteRecord(playername, type);
-        Data.deleteDelivery(playername, type);
         sendMessagePatternOrLater(playername, type, MessageType.TAKE);
         if (Config.getBoolean("thanks")) sendMessagePatternOrLater(playername, type, MessageType.THANKS);
         cancelMessagePattern(playername, type, MessageType.GIVE);
@@ -21,7 +20,7 @@ public class Logic {
     public static void givePlayer(String playername, String type) {
         Common.givePrivilegesOrLater(playername, type);
         Tasks.cancelAction(playername, type, TaskAction.TAKE);
-        Data.createDelivery(playername, type);
+
         sendMessagePatternOrLater(playername, type, MessageType.GIVE);
         if (Config.getBoolean("thanks")) sendMessagePatternOrLater(playername, type, MessageType.THANKS);
         cancelMessagePattern(playername, type, MessageType.TAKE);
@@ -55,7 +54,7 @@ public class Logic {
             Tasks.createMessage(
                     "%s.%s.%s".formatted(playername, type, msgType.toString()),
                     playername,
-                    Const.messages.get(msgType)
+                    message
             );
         } else {
             Logs.send(p, message);
