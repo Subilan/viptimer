@@ -14,7 +14,7 @@ public class Logic {
         Data.deleteRecord(playername, type);
         Data.deleteDelivery(playername, type);
         sendMessagePatternOrLater(playername, type, MessageType.TAKE);
-        sendMessagePatternOrLater(playername, type, MessageType.THANKS);
+        if (Config.getBoolean("thanks")) sendMessagePatternOrLater(playername, type, MessageType.THANKS);
         cancelMessagePattern(playername, type, MessageType.GIVE);
     }
 
@@ -23,7 +23,7 @@ public class Logic {
         Tasks.cancelAction(playername, type, TaskAction.TAKE);
         Data.createDelivery(playername, type);
         sendMessagePatternOrLater(playername, type, MessageType.GIVE);
-        sendMessagePatternOrLater(playername, type, MessageType.THANKS);
+        if (Config.getBoolean("thanks")) sendMessagePatternOrLater(playername, type, MessageType.THANKS);
         cancelMessagePattern(playername, type, MessageType.TAKE);
     }
 
