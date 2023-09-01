@@ -34,8 +34,7 @@ public class CommandTake extends Command {
         if (Data.deleteRecord(player, type)) {
             Logs.send(sender, "已删除 %s 的 %s 记录。"
                     .formatted(player, type));
-            Logs.sendOrLater(player, "你的 %s 已被删除。"
-                    .formatted(Privilege.getDisplayname(type)));
+
             Logic.takePlayer(player, type);
         } else {
             Logs.send(sender, "删除失败，请检查控制台。");

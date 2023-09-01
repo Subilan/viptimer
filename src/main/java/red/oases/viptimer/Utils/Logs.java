@@ -33,16 +33,6 @@ public class Logs {
                 .appendSpace();
     }
 
-    public static void sendOrLater(String player, String text) {
-        var p = Bukkit.getPlayer(player);
-
-        if (p != null) {
-            send(p, text);
-        } else {
-            Tasks.createMessage(player, text);
-        }
-    }
-
     public static void send(CommandSender sender, Component comp) {
         sender.sendMessage(defaultPrefix().append(comp));
     }

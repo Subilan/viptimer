@@ -17,22 +17,13 @@ public class DeliveryTimer extends CancellableTimer {
         for (var p : Bukkit.getServer().getOnlinePlayers()) {
             for (var t : Common.getTypes()) {
                 if (Data.hasRecord(p.getName(), t) && !Data.hasDelivery(p.getName(), t)) {
-                    var record = Data.getRecord(p.getName(), t);
-                    assert record != null;
                     Logs.info(p.getName() + "'s " + t + " is not delivered on this server.");
-                    Logs.send(p, "你已获得 %s，有效期至 %s".formatted(
-                            Privilege.of(t).displayname(),
-                            Common.formatTimestamp(record.getUntil())
-                    ));
-                    Logs.send(p, "多谢支持！");
                     Logs.info("Delivery completed!");
                     Logic.givePlayer(p.getName(), t);
                 }
 
                 if (!Data.hasRecord(p.getName(), t) && Data.hasDelivery(p.getName(), t)) {
                     Logs.info(p.getName() + "'s " + t + " is not removed on this server.");
-                    Logs.send(p, "你不再拥有 VIP（%s）。"
-                            .formatted(Privilege.of(t).displayname()));
                     Logs.info("Removal completed!");
                     Logic.takePlayer(p.getName(), t);
                 }

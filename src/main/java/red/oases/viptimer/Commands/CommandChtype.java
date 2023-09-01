@@ -46,8 +46,6 @@ public class CommandChtype extends Command {
 
             Logic.takePlayer(playername, from);
             Logic.givePlayer(playername, to);
-
-            Logs.sendOrLater(playername, "你的 " + from + " 已经被修改为 " + to + "。");
         } else {
             Logs.send(sender, "数据库操作失败。");
         }

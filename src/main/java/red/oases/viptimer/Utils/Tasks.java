@@ -7,6 +7,22 @@ import java.util.Objects;
 import java.util.UUID;
 
 public class Tasks {
+
+    public static void cancelMessage(String identifier) {
+        var messages = Files.tasks.getConfigurationSection("messages");
+        if (messages == null) return;
+
+        for (var k : messages.getKeys(false)) {
+            try {
+                if (Objects.requireNonNull(messages.getString("identifier")).equalsIgnoreCase(identifier)) {
+                    Files.withSaveTasks(t -> {
+                        t.set("messages." + k, null);
+                    });
+                }
+            } catch (NullPointerException ignored) {}
+        }
+    }
+
     public static void cancelAction(String playername, String type, TaskAction actionType) {
         var actions = Files.tasks.getConfigurationSection("actions");
         if (actions == null) return;
@@ -44,6 +60,14 @@ public class Tasks {
         create("messages", section -> {
             section.set("target_player", playername);
             section.set("message", message);
+        });
+    }
+
+    public static void createMessage(String identifier, String playername, String message) {
+        create("messages", section -> {
+            section.set("target_player", playername);
+            section.set("message", message);
+            section.set("identifier", identifier);
         });
     }
 }

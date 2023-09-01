@@ -35,11 +35,7 @@ public class CommandTransown extends Command {
                     .formatted(from, fromType, to, fromType));
 
             Logic.takePlayer(from, fromType);
-            Logs.sendOrLater(from, "你的 %s 已被转移给 %s。"
-                    .formatted(Privilege.getDisplayname(fromType), to));
             Logic.givePlayer(to, fromType);
-            Logs.sendOrLater(to, "%s 将他的 %s 转移给了你。"
-                    .formatted(from, Privilege.getDisplayname(fromType)));
         } else {
             Logs.send(sender, "数据库操作失败。");
         }
