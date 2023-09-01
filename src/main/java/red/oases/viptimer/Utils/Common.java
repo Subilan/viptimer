@@ -79,10 +79,10 @@ public class Common {
 
     public static void executeCommands(List<String> commands, StringHandler handler) {
         for (var cmd : commands) {
-            Bukkit.getServer().dispatchCommand(
+            if (!Bukkit.getServer().dispatchCommand(
                     Bukkit.getConsoleSender(),
                     handler.handle(cmd)
-            );
+            )) Logs.warn("Command execution failed: " + cmd);
         }
     }
 
