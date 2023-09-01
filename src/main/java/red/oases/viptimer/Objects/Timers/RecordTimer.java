@@ -12,9 +12,9 @@ public class RecordTimer extends CancellableTimer {
         var now = new Date().getTime();
         var records = Data.getExpirableRecords();
         for (var r : records) {
-            if (now > r.getUntil()) {
-                var playername = r.getPlayername();
-                var type = r.getType();
+            if (now > r.until()) {
+                var playername = r.playername();
+                var type = r.type();
                 Bukkit.getScheduler().runTask(Const.plugin, s -> {
                     Privileges.takeFromPlayer(playername, type);
                     Logs.info("Deleted record %s.%s due to expiration."

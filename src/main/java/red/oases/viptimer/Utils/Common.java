@@ -89,12 +89,12 @@ public class Common {
 
     public static void takePrivileges(String player, String type) {
         executeCommands(Privilege.of(type).take(), cmd -> cmd.replaceAll("\\$player", player));
-        Data.deleteDelivery(player, type);
+        if (!Data.deleteDelivery(player, type)) Logs.warn("Cannot delete delivery %s.%s".formatted(player, type));
     }
 
     public static void givePrivileges(String player, String type) {
         executeCommands(Privilege.of(type).give(), cmd -> cmd.replaceAll("\\$player", player));
-        Data.createDelivery(player, type);
+        if (!Data.createDelivery(player, type)) Logs.warn("Cannot create delivery %s.%s".formatted(player, type));
     }
 
     public static void takePrivilegesOrLater(String player, String type) {

@@ -32,10 +32,6 @@ public class Logs {
                 .appendSpace();
     }
 
-    public static void send(CommandSender sender, Component comp) {
-        sender.sendMessage(defaultPrefix().append(comp));
-    }
-
     public static void send(CommandSender sender, String text) {
         sender.sendMessage(defaultPrefix().append(Component.text(text).color(NamedTextColor.WHITE)));
     }

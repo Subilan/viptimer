@@ -52,13 +52,6 @@ public class Tasks {
         });
     }
 
-    public static void createMessage(String playername, String message) {
-        create("messages", section -> {
-            section.set("target_player", playername);
-            section.set("message", message);
-        });
-    }
-
     public static void createMessage(String identifier, String playername, String message) {
         create("messages", section -> {
             section.set("target_player", playername);

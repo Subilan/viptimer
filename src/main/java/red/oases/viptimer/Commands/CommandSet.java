@@ -58,9 +58,9 @@ public class CommandSet extends Command {
                 Logs.send(sender, "成功修改记录。");
                 Logs.send(sender, "%s.%s %s -> %s"
                         .formatted(
-                                record.getPlayername(),
-                                record.getType(),
-                                Common.formatTimestamp(record.getUntil()),
+                                record.playername(),
+                                record.type(),
+                                Common.formatTimestamp(record.until()),
                                 Common.formatTimestamp(until)
                         ));
             } else {

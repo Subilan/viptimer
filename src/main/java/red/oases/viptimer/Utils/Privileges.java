@@ -36,7 +36,7 @@ public class Privileges {
                 assert record != null;
                 message = message.formatted(
                         Privilege.getDisplayname(type),
-                        Common.formatTimestamp(record.getUntil())
+                        Common.formatTimestamp(record.until())
                 );
             }
 
