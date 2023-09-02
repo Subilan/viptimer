@@ -14,10 +14,7 @@ import red.oases.viptimer.Objects.Privilege;
 import red.oases.viptimer.Objects.Record;
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
 
 public class Common {
     public static long mustPositiveLong(String target) {
@@ -89,13 +86,30 @@ public class Common {
         }
     }
 
+    public static String getReplaced(String input, Map<String, String> replacement) {
+        for (var k : replacement.keySet()) {
+            input = input.replaceAll(k, replacement.get(k));
+        }
+        return input;
+    }
+
     public static void takePrivileges(String player, String type) {
-        executeCommands(Privilege.of(type).take(), cmd -> cmd.replaceAll("\\$player", player));
+        executeCommands(Privilege.of(type).take(), cmd -> getReplaced(cmd, Map.of(
+                "\\$playername",
+                player,
+                "\\$displayname",
+                Privilege.getDisplayname(type)
+        )));
         if (!Data.deleteDelivery(player, type)) Logs.warn("Cannot delete delivery %s.%s".formatted(player, type));
     }
 
     public static void givePrivileges(String player, String type) {
-        executeCommands(Privilege.of(type).give(), cmd -> cmd.replaceAll("\\$player", player));
+        executeCommands(Privilege.of(type).give(), cmd -> getReplaced(cmd, Map.of(
+                "\\$playername",
+                player,
+                "\\$displayname",
+                Privilege.getDisplayname(type)
+        )));
         if (!Data.createDelivery(player, type)) Logs.warn("Cannot create delivery %s.%s".formatted(player, type));
     }
 
