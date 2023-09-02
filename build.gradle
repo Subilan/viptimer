@@ -23,6 +23,7 @@ repositories {
 dependencies {
     compileOnly "io.papermc.paper:paper-api:1.20.1-R0.1-SNAPSHOT"
     implementation "com.zaxxer:HikariCP:5.0.1"
+    compileOnly group: 'com.mojang', name: 'authlib', version: '4.0.43'
     implementation files("libs/commons-dbutils-1.8.0.jar")
     // https://mvnrepository.com/artifact/com.mysql/mysql-connector-j
     runtimeOnly group: 'com.mysql', name: 'mysql-connector-j', version: '8.1.0'

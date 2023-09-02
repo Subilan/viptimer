@@ -42,6 +42,10 @@ public class Executor implements CommandExecutor {
             case "transown" -> {
                 return new CommandTransown(args, sender).collect();
             }
+
+            case "menu" -> {
+                return new CommandMenu(args, sender).collect();
+            }
         }
 
         return true;
