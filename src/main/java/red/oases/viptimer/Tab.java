@@ -25,7 +25,8 @@ public class Tab implements TabCompleter {
                     "take",
                     "set",
                     "menu",
-                    "test"
+                    "transown",
+                    "chtype"
             );
             else return List.of(
                     "menu"
@@ -34,16 +35,20 @@ public class Tab implements TabCompleter {
 
         if (args.length == 2) {
             switch (args[0]) {
-                case "give", "take", "set" -> {
+                case "give", "take", "set", "chtype" -> {
                     return List.of("<playername>");
+                }
+
+                case "transown" -> {
+                    return List.of("<from>");
                 }
             }
         }
 
         if (args.length == 3) {
             switch (args[0]) {
-                case "give", "take", "set" -> {
-                    return Files.config.getStringList("types");
+                case "give", "take", "set", "chtype", "transown" -> {
+                    return Common.getTypes();
                 }
             }
         }
@@ -63,6 +68,14 @@ public class Tab implements TabCompleter {
                     } else {
                         return List.of();
                     }
+                }
+
+                case "transown" -> {
+                    return List.of("<to>");
+                }
+
+                case "chtype" -> {
+                    return Common.getTypes();
                 }
             }
         }
