@@ -65,7 +65,7 @@ public class Data {
     }
 
     public static List<ExpirableRecord> getExpirableRecords() {
-        return withResult("SELECT playername, type, until FROM vip_records", r -> {
+        return withResult("SELECT playername, type, until FROM records", r -> {
             var result = new ArrayList<ExpirableRecord>();
             try {
                 while (r.next()) {
@@ -84,7 +84,7 @@ public class Data {
     }
 
     public static @Nullable Record getRecord(String playername, String type) {
-        return withResult("SELECT * FROM vip_records WHERE playername='%s' AND type='%s'"
+        return withResult("SELECT * FROM records WHERE playername='%s' AND type='%s'"
                 .formatted(playername, type), r -> {
             try {
                 if (r.next()) {
@@ -180,27 +180,27 @@ public class Data {
 
 
     public static boolean createRecord(String playername, String type, long until, CommandSender createdBy) {
-        return execute("INSERT INTO vip_records (playername, type, until, created_by) VALUES ('%s', '%s', %s, '%s')"
+        return execute("INSERT INTO records (playername, type, until, created_by) VALUES ('%s', '%s', %s, '%s')"
                 .formatted(playername, type, until, createdBy.getName()));
     }
 
     public static boolean deleteRecord(String playername, String type) {
-        return execute("DELETE FROM vip_records WHERE playername='%s' AND type='%s'"
+        return execute("DELETE FROM records WHERE playername='%s' AND type='%s'"
                 .formatted(playername, type));
     }
 
     public static boolean transferOwnership(String from, String fromType, String to) {
-        return execute("UPDATE vip_records SET playername='%s' WHERE playername='%s' AND type='%s'"
+        return execute("UPDATE records SET playername='%s' WHERE playername='%s' AND type='%s'"
                 .formatted(to, from, fromType));
     }
 
     public static boolean alterRecord(String playername, String type, long until) {
-        return execute("UPDATE vip_records SET until=%s WHERE playername='%s' AND type='%s'"
+        return execute("UPDATE records SET until=%s WHERE playername='%s' AND type='%s'"
                 .formatted(until, playername, type));
     }
 
     public static boolean alterRecord(String playername, String fromType, String toType) {
-        return execute("UPDATE vip_records SET type='%s' WHERE playername='%s' AND type='%s'"
+        return execute("UPDATE records SET type='%s' WHERE playername='%s' AND type='%s'"
                 .formatted(toType, playername, fromType));
     }
 
@@ -223,6 +223,6 @@ public class Data {
      * 判断指定玩家是否有指定类型的 VIP 记录
      */
     public static boolean hasRecord(String playername, String type) {
-        return hasResult("SELECT * FROM vip_records WHERE playername='%s' AND type='%s'".formatted(playername, type));
+        return hasResult("SELECT * FROM records WHERE playername='%s' AND type='%s'".formatted(playername, type));
     }
 }

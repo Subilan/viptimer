@@ -1,4 +1,4 @@
-CREATE TABLE `vip_records` (
+CREATE TABLE `records` (
 	`id` INT unsigned NOT NULL AUTO_INCREMENT,
 	`playername` VARCHAR(20) NOT NULL,
 	`type` VARCHAR(10) NOT NULL,
