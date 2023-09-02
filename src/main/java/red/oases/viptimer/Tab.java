@@ -6,12 +6,10 @@ import org.bukkit.command.TabCompleter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import red.oases.viptimer.Utils.Common;
-import red.oases.viptimer.Utils.Files;
 import red.oases.viptimer.Utils.Patterns;
 
 import java.util.List;
 
-@SuppressWarnings("SwitchStatementWithTooFewBranches")
 public class Tab implements TabCompleter {
     @Override
     public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
