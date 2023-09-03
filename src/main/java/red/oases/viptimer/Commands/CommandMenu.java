@@ -1,7 +1,5 @@
 package red.oases.viptimer.Commands;
 
-import net.kyori.adventure.key.Key;
-import net.kyori.adventure.sound.Sound;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import red.oases.viptimer.Command;
