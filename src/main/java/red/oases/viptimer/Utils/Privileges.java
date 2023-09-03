@@ -6,21 +6,33 @@ import red.oases.viptimer.Extra.Enums.TaskAction;
 import red.oases.viptimer.Objects.Privilege;
 
 public class Privileges {
-    public static void takeFromPlayer(String playername, String type) {
+    public static void takeFromPlayer(String playername, String type, boolean withMessages) {
         Common.takePrivilegesOrLater(playername, type);
         Tasks.cancelAction(playername, type, TaskAction.GIVE);
         Data.deleteRecord(playername, type);
-        sendMessagePatternOrLater(playername, type, MessageType.TAKE);
-        if (Config.getBoolean("thanks")) sendMessagePatternOrLater(playername, type, MessageType.THANKS);
-        cancelMessagePattern(playername, type, MessageType.GIVE);
+        if (withMessages) {
+            sendMessagePatternOrLater(playername, type, MessageType.TAKE);
+            if (Config.getBoolean("thanks")) sendMessagePatternOrLater(playername, type, MessageType.THANKS);
+            cancelMessagePattern(playername, type, MessageType.GIVE);
+        }
+    }
+
+    public static void takeFromPlayer(String playername, String type) {
+        takeFromPlayer(playername, type, true);
+    }
+
+    public static void giveToPlayer(String playername, String type, boolean withMessages) {
+        Common.givePrivilegesOrLater(playername, type);
+        Tasks.cancelAction(playername, type, TaskAction.TAKE);
+        if (withMessages) {
+            sendMessagePatternOrLater(playername, type, MessageType.GIVE);
+            if (Config.getBoolean("thanks")) sendMessagePatternOrLater(playername, type, MessageType.THANKS);
+            cancelMessagePattern(playername, type, MessageType.TAKE);
+        }
     }
 
     public static void giveToPlayer(String playername, String type) {
-        Common.givePrivilegesOrLater(playername, type);
-        Tasks.cancelAction(playername, type, TaskAction.TAKE);
-        sendMessagePatternOrLater(playername, type, MessageType.GIVE);
-        if (Config.getBoolean("thanks")) sendMessagePatternOrLater(playername, type, MessageType.THANKS);
-        cancelMessagePattern(playername, type, MessageType.TAKE);
+        giveToPlayer(playername, type, true);
     }
 
     public static void cancelMessagePattern(String playername, String type, MessageType msgType) {
