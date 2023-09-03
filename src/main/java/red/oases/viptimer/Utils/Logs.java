@@ -4,7 +4,6 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.command.CommandSender;
 
-import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 

@@ -83,6 +83,7 @@ public class Common {
                     Bukkit.getConsoleSender(),
                     handler.handle(cmd)
             )) Logs.warn("Command execution failed: " + cmd);
+            else Logs.info("Command execution succeeded: " + cmd);
         }
     }
 
