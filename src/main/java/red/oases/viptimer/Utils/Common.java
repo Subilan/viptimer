@@ -1,6 +1,10 @@
 package red.oases.viptimer.Utils;
 
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.TextColor;
+import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Bukkit;
+import org.bukkit.NamespacedKey;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
@@ -287,5 +291,30 @@ public class Common {
         }
 
         return null;
+    }
+
+    public static NamespacedKey key(String key) {
+        var result = NamespacedKey.fromString(key, Const.plugin);
+        assert result != null;
+        return result;
+    }
+
+    public static NamespacedKey getItemStackIdentifier() {
+        return key("oasis-itemstack-identifier");
+    }
+
+    public static Component t(String text, TextColor color, TextDecoration dec) {
+        return t(text, color).decorate(dec);
+    }
+
+    public static Component t(String text, TextColor color) {
+        return t(text).color(color);
+    }
+
+    public static Component t(String text) {
+        return Component.text(text).decorations(Map.of(
+                TextDecoration.ITALIC,
+                TextDecoration.State.FALSE
+        ));
     }
 }

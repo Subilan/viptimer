@@ -8,6 +8,7 @@ import red.oases.viptimer.Command;
 import red.oases.viptimer.Extra.Annotations.DisableConsole;
 import red.oases.viptimer.Extra.Annotations.PermissionLevel;
 import red.oases.viptimer.Objects.Menu;
+import red.oases.viptimer.Utils.Const;
 
 @DisableConsole
 @PermissionLevel(0)
@@ -20,7 +21,7 @@ public class CommandMenu extends Command {
     protected boolean execute() {
         var p = (Player) sender;
         new Menu(p).open();
-        p.playSound(Sound.sound(Key.key("entity.experience_orb.pickup"), Sound.Source.AMBIENT, 1f, 1f));
+        p.playSound(Const.SOUND_ORB_PICKUP);
         return true;
     }
 }
