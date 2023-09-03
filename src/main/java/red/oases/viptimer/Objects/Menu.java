@@ -50,7 +50,7 @@ public class Menu implements InventoryHolder {
                         tt(
                                 switch (record.getPrivilege().type()) {
                                     case "oasisplus" -> "<gradient:#2DB5F0:#2DF0BF>OasisPlus</gradient>";
-                                    case "oasislife" -> "<gradient:#A63F2C:#BC9F54>OasisLife</gradient>";
+                                    case "oasislife" -> "<gradient:#EE4426:#F0C553>OasisLife</gradient>";
                                     default -> record.getPrivilege().displayname();
                                 }
                         )
@@ -84,7 +84,7 @@ public class Menu implements InventoryHolder {
     public ItemStack getBook() {
         var book = new ItemStack(Material.BOOK);
         var meta = book.getItemMeta();
-        meta.displayName(Component.text("Oasis 会员手册"));
+        meta.displayName(t("Oasis 会员手册"));
         meta.lore(List.of(
                 t("在此查看可用的特权", NamedTextColor.GRAY),
                 t("以及对一些常见问题", NamedTextColor.GRAY),
@@ -99,7 +99,7 @@ public class Menu implements InventoryHolder {
         var inv = Bukkit.createInventory(
                 this,
                 45,
-                Component.text("Oasis VIP 信息")
+                tt("<gradient:#EE4426:#F0C553>Oasis 会员中心</gradient>")
         );
 
         var template = "ddddddddd" +
