@@ -1,8 +1,10 @@
 package red.oases.viptimer.Utils;
 
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextColor;
 import net.kyori.adventure.text.format.TextDecoration;
+import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.configuration.InvalidConfigurationException;
@@ -315,6 +317,10 @@ public class Common {
         return Component.text(text).decorations(Map.of(
                 TextDecoration.ITALIC,
                 TextDecoration.State.FALSE
-        ));
+        )).color(NamedTextColor.WHITE);
+    }
+
+    public static Component tt(String mini) {
+        return MiniMessage.miniMessage().deserialize(mini);
     }
 }

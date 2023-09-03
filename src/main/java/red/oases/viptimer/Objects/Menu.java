@@ -18,6 +18,7 @@ import red.oases.viptimer.Utils.SkullCreator;
 import java.util.List;
 
 import static red.oases.viptimer.Utils.Common.t;
+import static red.oases.viptimer.Utils.Common.tt;
 
 public class Menu implements InventoryHolder {
     public Player p;
@@ -45,7 +46,15 @@ public class Menu implements InventoryHolder {
         var meta = playerhead.getItemMeta();
         meta.displayName(t(p.getName() + " 的会员"));
         meta.lore(List.of(
-                t("· 会员类型: " + record.getPrivilege().displayname()),
+                t("· 会员类型: ").append(
+                        tt(
+                                switch (record.getPrivilege().type()) {
+                                    case "oasisplus" -> "<gradient:#2DB5F0:#2DF0BF>OasisPlus</gradient>";
+                                    case "oasislife" -> "<gradient:#A63F2C:#BC9F54>OasisLife</gradient>";
+                                    default -> record.getPrivilege().displayname();
+                                }
+                        )
+                ),
                 t("· 有效期至: " + Common.formatTimestamp(record.until()))
         ));
         meta.getPersistentDataContainer().set(Common.getItemStackIdentifier(), PersistentDataType.STRING, Const.II_PLAYERHEAD_PREM);
