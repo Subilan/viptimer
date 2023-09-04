@@ -17,7 +17,8 @@ public class Tasks {
                 if (Objects.requireNonNull(messages.getString(k + ".identifier")).equalsIgnoreCase(identifier)) {
                     Files.withSaveTasks(t -> t.set("messages." + k, null));
                 }
-            } catch (NullPointerException ignored) {}
+            } catch (NullPointerException ignored) {
+            }
         }
     }
 
@@ -32,7 +33,8 @@ public class Tasks {
                         && Objects.requireNonNull(actions.getString(k + ".action")).equalsIgnoreCase(actionType.toString())) {
                     Files.withSaveTasks(t -> t.set("actions." + k, null));
                 }
-            } catch (NullPointerException ignored) {}
+            } catch (NullPointerException ignored) {
+            }
         }
     }
 
@@ -58,5 +60,22 @@ public class Tasks {
             section.set("message", message);
             section.set("identifier", identifier);
         });
+    }
+
+    public static boolean hasMessage(String identifier) {
+        var messages = Files.tasks.getConfigurationSection("messages");
+        if (messages == null) return false;
+
+        for (var k : messages.getKeys(false)) {
+            try {
+                if (Objects.requireNonNull(messages.getString(k + ".identifier")).equalsIgnoreCase(identifier)) {
+                    return true;
+                }
+            } catch (NullPointerException e) {
+                return false;
+            }
+        }
+
+        return false;
     }
 }

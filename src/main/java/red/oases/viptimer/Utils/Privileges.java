@@ -35,6 +35,16 @@ public class Privileges {
         giveToPlayer(playername, type, true);
     }
 
+    public static boolean hasMessagePattern(String playername, String type, MessageType msgType) {
+        return Tasks.hasMessage("%s.%s.%s".formatted(playername, type, msgType.toString()));
+    }
+
+    public static void refreshMessagePattern(String playername, String type, MessageType msgType) {
+        if (!hasMessagePattern(playername, type, msgType)) return;
+        cancelMessagePattern(playername, type, msgType);
+        sendMessagePatternOrLater(playername, type, msgType);
+    }
+
     public static void cancelMessagePattern(String playername, String type, MessageType msgType) {
         Tasks.cancelMessage("%s.%s.%s".formatted(playername, type, msgType.toString()));
     }

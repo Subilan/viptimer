@@ -42,33 +42,44 @@ public class Common {
     public static int mustPositive(String target) {
         int result;
         try {
-            result = Integer.parseInt(target);
+            result = Integer.parseUnsignedInt(target);
+            return result;
         } catch (NumberFormatException e) {
             return 0;
         }
-        return result;
     }
 
-    public static long getUntil(int number, String unit) {
+    /**
+     * 转换对应字符串为整数。如果转换失败，返回 0。
+     */
+    public static int mustNumeric(String target) {
+        int result;
+        try {
+            result = Integer.parseInt(target);
+            return result;
+        } catch (NumberFormatException e) {
+            return 0;
+        }
+    }
+
+    public static long getUntil(long number, String unit) {
         return getUntil(number, TimeUnit.from(unit));
     }
 
-    public static long getUntil(int number, TimeUnit unit) {
-        var now = new Date().getTime();
-        switch (unit) {
-            case HOUR -> {
-                return now + number * 3_600_000L;
-            }
+    public static long getUntil(long current, long delta, String unit) {
+        return current + getDelta(delta, TimeUnit.from(unit));
+    }
 
-            case DAY -> {
-                return now + number * 24 * 3_600_000L;
-            }
+    public static long getDelta(long delta, TimeUnit unit) {
+        return switch (unit) {
+            case HOUR -> delta * 3_600_000L;
+            case DAY -> delta * 24 * 3_600_000L;
+            case MONTH -> delta * 30 * 24 * 3_600_000L;
+        };
+    }
 
-            case MONTH -> {
-                return now + number * 30 * 24 * 3_600_000L;
-            }
-        }
-        throw new UnexpectedMatchException();
+    public static long getUntil(long number, TimeUnit unit) {
+        return new Date().getTime() + getDelta(number, unit);
     }
 
     public static String formatTimestamp(long epoch) {
@@ -263,12 +274,14 @@ public class Common {
 
                 switch (action) {
                     case GIVE -> {
-                        if (!Data.hasDelivery(p.getName(), targetType)) Privileges.giveToPlayer(p.getName(), targetType, false);
+                        if (!Data.hasDelivery(p.getName(), targetType))
+                            Privileges.giveToPlayer(p.getName(), targetType, false);
                         else Logs.warn("Delivery is already made. No changes were made.");
                     }
 
                     case TAKE -> {
-                        if (Data.hasDelivery(p.getName(), targetType)) Privileges.takeFromPlayer(p.getName(), targetType, false);
+                        if (Data.hasDelivery(p.getName(), targetType))
+                            Privileges.takeFromPlayer(p.getName(), targetType, false);
                         else Logs.warn("Delivery is already removed. No changes were made.");
                     }
                 }

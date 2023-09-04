@@ -9,7 +9,7 @@ public class Patterns {
 
     public static final String INPUT_DATE_PATTERN = "yyyy-MM-dd_HH:mm:ss";
 
-    public static final Pattern DURATION = Pattern.compile("^(\\d+)([hdm])$");
+    public static final Pattern DURATION = Pattern.compile("^(-?\\d+)([hdm])$");
     public static final Pattern NON_NEGATIVE_INTEGER = Pattern.compile("^\\d+$");
 
     public static boolean isNonNegativeInteger(String input) {

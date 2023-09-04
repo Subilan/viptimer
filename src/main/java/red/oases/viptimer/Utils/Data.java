@@ -3,6 +3,7 @@ package red.oases.viptimer.Utils;
 import org.apache.commons.dbutils.DbUtils;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.Nullable;
+import red.oases.viptimer.Extra.Enums.TimeUnit;
 import red.oases.viptimer.Extra.Interfaces.CursorHandler;
 import red.oases.viptimer.Objects.Distribution;
 import red.oases.viptimer.Objects.ExpirableRecord;
@@ -224,5 +225,10 @@ public class Data {
      */
     public static boolean hasRecord(String playername, String type) {
         return hasResult("SELECT * FROM records WHERE playername='%s' AND type='%s'".formatted(playername, type));
+    }
+
+    public static boolean setUntil(String playername, String type, long until) {
+        return execute("UPDATE records SET until=%s WHERE playername='%s' AND type='%s'"
+                .formatted(until, playername, type));
     }
 }

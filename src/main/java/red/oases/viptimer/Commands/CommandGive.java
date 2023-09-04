@@ -2,8 +2,11 @@ package red.oases.viptimer.Commands;
 
 import org.bukkit.command.CommandSender;
 import red.oases.viptimer.Command;
+import red.oases.viptimer.Extra.Enums.MessageType;
 import red.oases.viptimer.Extra.Enums.TimeUnit;
 import red.oases.viptimer.Utils.*;
+
+import java.util.Date;
 
 public class CommandGive extends Command {
     public CommandGive(String[] args, CommandSender sender) {
@@ -31,13 +34,8 @@ public class CommandGive extends Command {
             return true;
         }
 
-        var durationNumber = Common.mustPositive(Patterns.getDuration(duration)[0]);
+        var durationNumber = Common.mustNumeric(Patterns.getDuration(duration)[0]);
         var durationUnit = Patterns.getDuration(duration)[1];
-
-        if (durationNumber == 0) {
-            Logs.send(sender, "错误：持续时间必须为正数");
-            return true;
-        }
 
         if (!TimeUnit.isValid(durationUnit)) {
             Logs.send(sender, "错误：时间单位不正确");
@@ -45,7 +43,29 @@ public class CommandGive extends Command {
         }
 
         if (Data.hasRecord(player, type)) {
-            Logs.send(sender, "此玩家已有 " + type + "，请尝试更改或删除。");
+            var record = Data.getRecord(player, type);
+            assert record != null;
+            var until = Common.getUntil(record.until(), durationNumber, durationUnit);
+
+            if (until <= new Date().getTime()) {
+                Logs.send(sender, "错误：结束时间不得小于当前时间");
+                return true;
+            }
+
+            if (Data.setUntil(player, type, until)) {
+                Logs.send(sender, "成功将 %s 的 %s %s到 %s"
+                        .formatted(player, type, durationNumber > 0 ? "延长" : "缩短", Common.formatTimestamp(until)));
+
+                Privileges.refreshMessagePattern(player, type, MessageType.GIVE);
+            } else {
+                Logs.send(sender, "错误：无法修改记录，请查看控制台");
+            }
+
+            return true;
+        }
+
+        if (durationNumber <= 0) {
+            Logs.send(sender, "错误：持续时间必须为正数");
             return true;
         }
 

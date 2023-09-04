@@ -14,9 +14,11 @@ public enum TimeUnit {
     }
 
     public static TimeUnit from(String s) {
-        if (s.equalsIgnoreCase("h")) return HOUR;
-        if (s.equalsIgnoreCase("d")) return DAY;
-        if (s.equalsIgnoreCase("m")) return MONTH;
-        throw new UnexpectedMatchException();
+        return switch (s) {
+            case "h", "H" -> HOUR;
+            case "d", "D" -> DAY;
+            case "m", "M" -> MONTH;
+            default -> throw new IllegalArgumentException("Illegal TimeUnit");
+        };
     }
 }
