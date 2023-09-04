@@ -29,6 +29,10 @@ public abstract class CancellableTimer {
         }, 0, interval, unit);
     }
 
+    /**
+     * 以同步模式运行重复任务
+     * @param interval 重复时间间隔，单位：秒
+     */
     public void runSync(long interval) {
         syncTask = Bukkit.getScheduler().scheduleSyncRepeatingTask(Const.plugin, () -> {
             if (!DB.isClosed()) {

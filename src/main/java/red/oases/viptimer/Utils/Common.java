@@ -164,14 +164,10 @@ public class Common {
      * 获取当前插件所在服务器对应的 instance id
      * 如果不存在则会创建，储存在 types.yml 内
      */
-    @SuppressWarnings("ResultOfMethodCallIgnored")
     public static String getInstanceId() {
         var instId = Files.types.getString("inst_id");
 
-        if (instId != null) {
-            UUID.fromString(instId);
-            // throw IllegalArgumentException if not valid.
-        } else {
+        if (instId == null) {
             instId = UUID.randomUUID().toString();
             Files.types.set("inst_id", instId);
             Files.saveTypes();
