@@ -33,7 +33,7 @@ jobs:
         with:
           gradle-version: 8.2
       - name: Build
-        run: gradle build
+        run: gradle clean shadow
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
