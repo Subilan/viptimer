@@ -33,17 +33,17 @@ public class SkullCreator {
     public static ItemStack createSkull() {
         return new ItemStack(Material.PLAYER_HEAD);
     }
-
-    /**
-     * Creates a player skull item with the skin based on a player's name.
-     *
-     * @param name The Player's name.
-     * @return The head of the Player.
-     * @deprecated names don't make for good identifiers.
-     */
-    public static ItemStack itemFromName(String name) {
-        return itemWithName(createSkull(), name);
-    }
+//
+//    /**
+//     * Creates a player skull item with the skin based on a player's name.
+//     *
+//     * @param name The Player's name.
+//     * @return The head of the Player.
+//     * @deprecated names don't make for good identifiers.
+//     */
+//    public static ItemStack itemFromName(String name) {
+//        return itemWithName(createSkull(), name);
+//    }
 
     /**
      * Creates a player skull item with the skin based on a player's UUID.
