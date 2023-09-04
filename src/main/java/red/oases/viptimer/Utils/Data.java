@@ -83,6 +83,29 @@ public class Data {
         });
     }
 
+    public static @Nullable Record getRecord(String playername) {
+        return withResult("SELECT * FROM records WHERE playername='%s'"
+                .formatted(playername), r -> {
+            try {
+                if (r.next()) {
+                    return new Record(
+                            r.getString("playername"),
+                            r.getString("type"),
+                            r.getLong("until"),
+                            r.getString("created_by"),
+                            r.getDate("created_at"),
+                            r.getDate("updated_at")
+                    );
+                } else {
+                    return null;
+                }
+            } catch (SQLException e) {
+                Logs.severe(e.getMessage());
+                return null;
+            }
+        });
+    }
+
     public static @Nullable Record getRecord(String playername, String type) {
         return withResult("SELECT * FROM records WHERE playername='%s' AND type='%s'"
                 .formatted(playername, type), r -> {
@@ -224,6 +247,10 @@ public class Data {
      */
     public static boolean hasRecord(String playername, String type) {
         return hasResult("SELECT * FROM records WHERE playername='%s' AND type='%s'".formatted(playername, type));
+    }
+
+    public static boolean hasRecord(String playername) {
+        return hasResult("SELECT * FROM records WHERE playername='%s'".formatted(playername));
     }
 
     public static boolean setUntil(String playername, String type, long until) {

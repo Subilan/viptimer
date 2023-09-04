@@ -42,9 +42,14 @@ public class CommandGive extends Command {
             return true;
         }
 
-        if (Data.hasRecord(player, type)) {
-            var record = Data.getRecord(player, type);
+        if (Data.hasRecord(player)) {
+            var record = Data.getRecord(player);
             assert record != null;
+            if (!record.type().equalsIgnoreCase(type)) {
+                Logs.send(sender, "此玩家已拥有 " + record.type());
+                Logs.send(sender, "暂不支持同时持有两种 VIP，请使用 chtype 切换类型。");
+                return true;
+            }
             var until = Common.getUntil(record.until(), durationNumber, durationUnit);
 
             if (until <= new Date().getTime()) {
