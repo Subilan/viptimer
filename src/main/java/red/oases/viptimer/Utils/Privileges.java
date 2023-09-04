@@ -11,9 +11,9 @@ public class Privileges {
         Tasks.cancelAction(playername, type, TaskAction.GIVE);
         Data.deleteRecord(playername, type);
         if (withMessages) {
-            sendMessagePatternOrLater(playername, type, MessageType.TAKE);
-            if (Config.getBoolean("thanks")) sendMessagePatternOrLater(playername, type, MessageType.THANKS);
-            cancelMessagePattern(playername, type, MessageType.GIVE);
+            sendMessageOf(playername, type, MessageType.TAKE);
+            if (Config.getBoolean("thanks")) sendMessageOf(playername, type, MessageType.THANKS);
+            cancelMessageOf(playername, type, MessageType.GIVE);
         }
     }
 
@@ -25,9 +25,9 @@ public class Privileges {
         Common.givePrivilegesOrLater(playername, type);
         Tasks.cancelAction(playername, type, TaskAction.TAKE);
         if (withMessages) {
-            sendMessagePatternOrLater(playername, type, MessageType.GIVE);
-            if (Config.getBoolean("thanks")) sendMessagePatternOrLater(playername, type, MessageType.THANKS);
-            cancelMessagePattern(playername, type, MessageType.TAKE);
+            sendMessageOf(playername, type, MessageType.GIVE);
+            if (Config.getBoolean("thanks")) sendMessageOf(playername, type, MessageType.THANKS);
+            cancelMessageOf(playername, type, MessageType.TAKE);
         }
     }
 
@@ -35,21 +35,21 @@ public class Privileges {
         giveToPlayer(playername, type, true);
     }
 
-    public static boolean hasMessagePattern(String playername, String type, MessageType msgType) {
+    public static boolean hasMessageOf(String playername, String type, MessageType msgType) {
         return Tasks.hasMessage("%s.%s.%s".formatted(playername, type, msgType.toString()));
     }
 
-    public static void refreshMessagePattern(String playername, String type, MessageType msgType) {
-        if (!hasMessagePattern(playername, type, msgType)) return;
-        cancelMessagePattern(playername, type, msgType);
-        sendMessagePatternOrLater(playername, type, msgType);
+    public static void refreshMessageOf(String playername, String type, MessageType msgType) {
+        if (!hasMessageOf(playername, type, msgType)) return;
+        cancelMessageOf(playername, type, msgType);
+        sendMessageOf(playername, type, msgType);
     }
 
-    public static void cancelMessagePattern(String playername, String type, MessageType msgType) {
+    public static void cancelMessageOf(String playername, String type, MessageType msgType) {
         Tasks.cancelMessage("%s.%s.%s".formatted(playername, type, msgType.toString()));
     }
 
-    public static void sendMessagePatternOrLater(String playername, String type, MessageType msgType) {
+    public static void sendMessageOf(String playername, String type, MessageType msgType) {
         var message = Const.messages.get(msgType);
         var record = Data.getRecord(playername, type);
 

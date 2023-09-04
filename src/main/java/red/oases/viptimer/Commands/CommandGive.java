@@ -61,7 +61,7 @@ public class CommandGive extends Command {
                 Logs.send(sender, "成功将 %s 的 %s %s到 %s"
                         .formatted(player, type, durationNumber > 0 ? "延长" : "缩短", Common.formatTimestamp(until)));
 
-                Privileges.refreshMessagePattern(player, type, MessageType.GIVE);
+                Privileges.refreshMessageOf(player, type, MessageType.GIVE);
             } else {
                 Logs.send(sender, "错误：无法修改记录，请查看控制台");
             }
