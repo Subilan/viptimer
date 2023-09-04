@@ -317,6 +317,10 @@ public class Common {
         return key("oasis-itemstack-identifier");
     }
 
+    public static Component t() {
+        return Component.empty();
+    }
+
     public static Component t(String text, TextColor color, TextDecoration dec) {
         return t(text, color).decorate(dec);
     }

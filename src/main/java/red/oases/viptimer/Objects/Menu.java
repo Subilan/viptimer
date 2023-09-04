@@ -1,6 +1,8 @@
 package red.oases.viptimer.Objects;
 
+import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.format.TextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -26,6 +28,12 @@ public class Menu implements InventoryHolder {
         this.p = p;
     }
 
+    public static Component key(String name) {
+        return t("· ", NamedTextColor.GRAY)
+                .append(t(name, NamedTextColor.GREEN))
+                .append(t(": ", NamedTextColor.YELLOW));
+    }
+
     public ItemStack getDefaultHead() {
         var def = SkullCreator.itemFromUuid(p.getUniqueId());
         var meta = def.getItemMeta();
@@ -45,7 +53,7 @@ public class Menu implements InventoryHolder {
         var meta = playerhead.getItemMeta();
         meta.displayName(t(p.getName() + " 的会员"));
         meta.lore(List.of(
-                t("· 会员类型: ").append(
+                key("会员类型").append(
                         tt(
                                 switch (record.getPrivilege().type()) {
                                     case "oasisplus" -> "<gradient:#2DB5F0:#2DF0BF>OasisPlus</gradient>";
@@ -54,7 +62,9 @@ public class Menu implements InventoryHolder {
                                 }
                         )
                 ),
-                t("· 有效期至: " + Common.formatTimestamp(record.until()))
+                key("有效期至").append(
+                        t(Common.formatTimestamp(record.until()), NamedTextColor.GOLD)
+                )
         ));
         meta.getPersistentDataContainer().set(Common.getItemStackIdentifier(), PersistentDataType.STRING, Const.II_PLAYERHEAD_PREM);
         playerhead.setItemMeta(meta);
@@ -70,6 +80,7 @@ public class Menu implements InventoryHolder {
                         .append(t("]", NamedTextColor.DARK_GRAY))
         );
         meta.lore(List.of(
+                t(),
                 t("由于 MOJANG 限制", NamedTextColor.GRAY),
                 t("请单击聊天框内链接", NamedTextColor.GRAY),
                 t("多谢理解~", NamedTextColor.GRAY)
@@ -85,6 +96,7 @@ public class Menu implements InventoryHolder {
         var meta = book.getItemMeta();
         meta.displayName(t("Oasis 会员手册"));
         meta.lore(List.of(
+                t(),
                 t("在此查看可用的特权", NamedTextColor.GRAY),
                 t("以及对一些常见问题", NamedTextColor.GRAY),
                 t("的解答和帮助信息！", NamedTextColor.GRAY)
@@ -98,7 +110,7 @@ public class Menu implements InventoryHolder {
         var inv = Bukkit.createInventory(
                 this,
                 45,
-                tt("<gradient:#EE4426:#F0C553>Oasis 会员中心</gradient>")
+                t("Oasis 会员中心", TextColor.color(0xEE4426))
         );
 
         var template = "ddddddddd" +
