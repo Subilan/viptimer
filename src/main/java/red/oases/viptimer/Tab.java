@@ -11,6 +11,7 @@ import red.oases.viptimer.Utils.Patterns;
 import java.util.List;
 
 public class Tab implements TabCompleter {
+
     @Override
     public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (args.length == 0) {
@@ -33,12 +34,8 @@ public class Tab implements TabCompleter {
 
         if (args.length == 2) {
             switch (args[0]) {
-                case "give", "take", "set", "chtype" -> {
-                    return List.of("<playername>");
-                }
-
-                case "transown" -> {
-                    return List.of("<from>");
+                case "give", "take", "set", "chtype", "transown" -> {
+                    return Common.getOnlinePlayerNames();
                 }
             }
         }
@@ -54,7 +51,7 @@ public class Tab implements TabCompleter {
         if (args.length == 4) {
             switch (args[0]) {
                 case "give" -> {
-                    var numeric = Common.mustPositive(args[3]);
+                    var numeric = Common.mustNumeric(args[3]);
                     if (numeric != 0) {
                         return List.of(
                                 numeric + "h",
@@ -69,7 +66,7 @@ public class Tab implements TabCompleter {
                 }
 
                 case "transown" -> {
-                    return List.of("<to>");
+                    return Common.getOnlinePlayerNames();
                 }
 
                 case "chtype" -> {

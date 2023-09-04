@@ -22,6 +22,10 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class Common {
+
+    public static List<String> getOnlinePlayerNames() {
+        return Bukkit.getServer().getOnlinePlayers().stream().map(Player::getName).toList();
+    }
     public static long mustPositiveLong(String target) {
         long result;
         try {
