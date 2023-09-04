@@ -19,6 +19,7 @@ import red.oases.viptimer.Objects.Record;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.function.Function;
 import java.util.function.UnaryOperator;
 
 public class Common {
@@ -26,6 +27,7 @@ public class Common {
     public static List<String> getOnlinePlayerNames() {
         return Bukkit.getServer().getOnlinePlayers().stream().map(Player::getName).toList();
     }
+
     public static long mustPositiveLong(String target) {
         long result;
         try {
@@ -97,7 +99,7 @@ public class Common {
         return !getTypes().contains(t);
     }
 
-    public static void executeCommands(List<String> commands, UnaryOperator<String> handler) {
+    public static void executeCommands(List<String> commands, Function<String, String> handler) {
         for (var cmd : commands) {
             if (!Bukkit.getServer().dispatchCommand(
                     Bukkit.getConsoleSender(),

@@ -3,7 +3,6 @@ package red.oases.viptimer.Utils;
 import org.apache.commons.dbutils.DbUtils;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.Nullable;
-import red.oases.viptimer.Extra.Interfaces.CursorHandler;
 import red.oases.viptimer.Objects.Distribution;
 import red.oases.viptimer.Objects.ExpirableRecord;
 import red.oases.viptimer.Objects.Record;
@@ -31,12 +30,12 @@ public class Data {
         }
     }
 
-    public static <T> T withResult(String sql, CursorHandler<T> handle) {
+    public static <T> T withResult(String sql, Function<ResultSet, T> handle) {
         var conn = DB.getConnection();
         if (conn == null) throw new RuntimeException("Cannot get connection in method `withResult`.");
         try (var st = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY)) {
             var result = st.executeQuery(sql);
-            return handle.handler(result);
+            return handle.apply(result);
         } catch (SQLException e) {
             Logs.severe(e.getMessage());
             throw new RuntimeException(e);
