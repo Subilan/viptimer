@@ -165,13 +165,13 @@ public class Data {
         // This should only generate one or zero result.
         var distNotUpdated = withResult(
                 "SELECT * FROM distribution, receipt WHERE distribution.updated_at > receipt.recv_at AND distribution.dist_by = receipt.dist_by",
-                collectDistribution::apply
+                collectDistribution
         );
         // Select all the distributions that were not received by the current instance.
         // This should only generate one or zero result.
         var distNotReceived = withResult(
                 "SELECT * FROM distribution WHERE NOT dist_by IN (SELECT dist_by FROM receipt WHERE recv_by='%s')".formatted(Common.getInstanceId()),
-                collectDistribution::apply
+                collectDistribution
         );
 
         return Stream.concat(distNotReceived.stream(), distNotUpdated.stream()).toList();
