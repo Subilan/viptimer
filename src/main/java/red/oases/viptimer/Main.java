@@ -36,7 +36,7 @@ public final class Main extends JavaPlugin {
 
         deliveryTimer.runAsync(1, TimeUnit.SECONDS);
         Logs.info("已注册权限同步检查重复逻辑。");
-        recordTimer.runSync(1, TimeUnit.SECONDS);
+        recordTimer.runSync(1);
         Logs.info("已注册权限到期检查重复逻辑。");
 
         Const.role = Role.of(Files.config.getString("role"));

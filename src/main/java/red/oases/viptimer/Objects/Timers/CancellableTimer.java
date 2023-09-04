@@ -29,13 +29,10 @@ public abstract class CancellableTimer {
         }, 0, interval, unit);
     }
 
-    public void runSync(long interval, TimeUnit unit) {
-        syncTask = Bukkit.getScheduler().scheduleSyncRepeatingTask(Const.plugin, new Runnable() {
-            @Override
-            public void run() {
-                if (!DB.isClosed()) {
-                    execute();
-                }
+    public void runSync(long interval) {
+        syncTask = Bukkit.getScheduler().scheduleSyncRepeatingTask(Const.plugin, () -> {
+            if (!DB.isClosed()) {
+                execute();
             }
         }, 0, interval * 20);
     }
