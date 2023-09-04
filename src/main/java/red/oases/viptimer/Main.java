@@ -34,21 +34,21 @@ public final class Main extends JavaPlugin {
         receiptTimer = new ReceiptTimer();
         deliveryTimer = new DeliveryTimer();
 
-        deliveryTimer.run(1, TimeUnit.SECONDS);
+        deliveryTimer.runAsync(1, TimeUnit.SECONDS);
         Logs.info("已注册权限同步检查重复逻辑。");
-        recordTimer.run(1, TimeUnit.SECONDS);
+        recordTimer.runSync(1, TimeUnit.SECONDS);
         Logs.info("已注册权限到期检查重复逻辑。");
 
         Const.role = Role.of(Files.config.getString("role"));
         switch (Const.role) {
             case DISTRIBUTOR -> {
                 Common.updateDistribution();
-                distributionTimer.run(1, TimeUnit.SECONDS);
+                distributionTimer.runAsync(1, TimeUnit.SECONDS);
                 Logs.info("已注册数据分发重复逻辑。");
             }
 
             case RECEIVER -> {
-                receiptTimer.run(1, TimeUnit.SECONDS);
+                receiptTimer.runAsync(1, TimeUnit.SECONDS);
                 Logs.info("已注册数据接收重复逻辑。");
             }
         }
@@ -59,9 +59,10 @@ public final class Main extends JavaPlugin {
     @Override
     public void onDisable() {
         Logs.info("VIPTimer 已停用。");
-        receiptTimer.cancel();
-        distributionTimer.cancel();
-        recordTimer.cancel();
+        deliveryTimer.cancelAsync();
+        receiptTimer.cancelAsync();
+        distributionTimer.cancelAsync();
+        recordTimer.cancelSync();
         DB.close();
         Logs.info("数据库资源已释放。");
     }
