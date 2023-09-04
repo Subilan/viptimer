@@ -13,13 +13,13 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import red.oases.viptimer.Extra.Enums.TaskAction;
 import red.oases.viptimer.Extra.Enums.TimeUnit;
-import red.oases.viptimer.Extra.Interfaces.StringHandler;
 import red.oases.viptimer.Objects.Distribution;
 import red.oases.viptimer.Objects.Privilege;
 import red.oases.viptimer.Objects.Record;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.function.UnaryOperator;
 
 public class Common {
 
@@ -97,11 +97,11 @@ public class Common {
         return !getTypes().contains(t);
     }
 
-    public static void executeCommands(List<String> commands, StringHandler handler) {
+    public static void executeCommands(List<String> commands, UnaryOperator<String> handler) {
         for (var cmd : commands) {
             if (!Bukkit.getServer().dispatchCommand(
                     Bukkit.getConsoleSender(),
-                    handler.handle(cmd)
+                    handler.apply(cmd)
             )) Logs.warn("Command execution failed: " + cmd);
             else Logs.info("Command execution succeeded: " + cmd);
         }

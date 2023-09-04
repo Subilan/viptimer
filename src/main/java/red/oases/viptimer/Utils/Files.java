@@ -1,11 +1,12 @@
 package red.oases.viptimer.Utils;
 
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
-import red.oases.viptimer.Extra.Interfaces.SectionHandler;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.function.Consumer;
 
 public class Files {
     public static File datafolder;
@@ -46,8 +47,8 @@ public class Files {
         }
     }
 
-    public static void withSaveTasks(SectionHandler handler) {
-        handler.handle(tasks);
+    public static void withSaveTasks(Consumer<ConfigurationSection> handler) {
+        handler.accept(tasks);
         saveTasks();
     }
 

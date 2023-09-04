@@ -1,10 +1,11 @@
 package red.oases.viptimer.Utils;
 
+import org.bukkit.configuration.ConfigurationSection;
 import red.oases.viptimer.Extra.Enums.TaskAction;
-import red.oases.viptimer.Extra.Interfaces.SectionHandler;
 
 import java.util.Objects;
 import java.util.UUID;
+import java.util.function.Consumer;
 
 public class Tasks {
 
@@ -38,11 +39,11 @@ public class Tasks {
         }
     }
 
-    public static void create(String sectionName, SectionHandler handler) {
+    public static void create(String sectionName, Consumer<ConfigurationSection> handler) {
         var uuid = UUID.randomUUID().toString();
         Files.withSaveTasks(t -> {
             var section = t.createSection(sectionName + "." + uuid);
-            handler.handle(section);
+            handler.accept(section);
         });
     }
 
