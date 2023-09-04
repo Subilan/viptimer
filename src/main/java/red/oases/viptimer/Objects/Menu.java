@@ -51,7 +51,7 @@ public class Menu implements InventoryHolder {
         if (record == null) return getDefaultHead();
         var playerhead = SkullCreator.itemFromUuid(p.getUniqueId());
         var meta = playerhead.getItemMeta();
-        meta.displayName(t(p.getName() + " 的会员"));
+        meta.displayName(t(p.getName() + " 的会员", NamedTextColor.AQUA));
         meta.lore(List.of(
                 key("会员类型").append(
                         tt(
@@ -94,7 +94,7 @@ public class Menu implements InventoryHolder {
     public ItemStack getBook() {
         var book = new ItemStack(Material.BOOK);
         var meta = book.getItemMeta();
-        meta.displayName(t("Oasis 会员手册"));
+        meta.displayName(t("Oasis 会员手册", NamedTextColor.AQUA));
         meta.lore(List.of(
                 t(),
                 t("在此查看可用的特权", NamedTextColor.GRAY),

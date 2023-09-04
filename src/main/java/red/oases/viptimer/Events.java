@@ -64,7 +64,7 @@ public class Events implements Listener {
 
             case Const.II_GUIDEBOOK -> {
                 inv.close();
-                Logs.send(p, "此功能正在火速开发中，敬请期待...");
+                Logs.send(p, "手册正在编写中，敬请期待...");
             }
         }
     }
