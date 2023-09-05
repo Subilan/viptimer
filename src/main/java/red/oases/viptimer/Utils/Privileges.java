@@ -12,7 +12,7 @@ public class Privileges {
         Data.deleteRecord(playername, type);
         if (withMessages) {
             sendMessageOf(playername, type, MessageType.TAKE);
-            if (Config.getBoolean("thanks")) sendMessageOf(playername, type, MessageType.THANKS);
+            sendMessageOf(playername, type, MessageType.THANKS);
             cancelMessageOf(playername, type, MessageType.GIVE);
         }
     }
@@ -26,7 +26,7 @@ public class Privileges {
         Tasks.cancelAction(playername, type, TaskAction.TAKE);
         if (withMessages) {
             sendMessageOf(playername, type, MessageType.GIVE);
-            if (Config.getBoolean("thanks")) sendMessageOf(playername, type, MessageType.THANKS);
+            sendMessageOf(playername, type, MessageType.THANKS);
             cancelMessageOf(playername, type, MessageType.TAKE);
         }
     }
@@ -51,6 +51,7 @@ public class Privileges {
 
     public static void sendMessageOf(String playername, String type, MessageType msgType) {
         var message = Const.messages.get(msgType);
+        if (message.isEmpty()) return;
         var record = Data.getRecord(playername, type);
 
         switch (msgType) {
@@ -65,6 +66,9 @@ public class Privileges {
             case TAKE -> message = message.formatted(
                     Privilege.getDisplayname(type)
             );
+
+            case THANKS -> message = message.replaceAll("\\$playername", playername)
+                    .replaceAll("\\$displayname", Privilege.getDisplayname(type));
         }
 
         var p = Bukkit.getServer().getPlayer(playername);

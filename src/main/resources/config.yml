@@ -10,5 +10,5 @@ database:
 # 不填则为 none
 # 具体解释请见 https://wiki.oases.red/VIP%E8%AE%A1%E6%97%B6%E6%8F%92%E4%BB%B6%E6%8A%80%E6%9C%AF%E6%96%87%E6%A1%A3
 role: distributor
-# 是否在获得/失去会员时显示「多谢支持」的信息
-thanks: true
+# 在获得/失去会员时显示的感谢信息。如不需要可留空。
+thank-you-message: ~
