@@ -55,11 +55,7 @@ public class Menu implements InventoryHolder {
         meta.lore(List.of(
                 key("会员类型").append(
                         tt(
-                                switch (record.getPrivilege().type()) {
-                                    case "oasisplus" -> "<gradient:#2DB5F0:#2DF0BF>OasisPlus</gradient>";
-                                    case "oasislife" -> "<gradient:#EE4426:#F0C553>OasisLife</gradient>";
-                                    default -> record.getPrivilege().displayname();
-                                }
+                                record.getPrivilege().displayname()
                         )
                 ),
                 key("有效期至").append(

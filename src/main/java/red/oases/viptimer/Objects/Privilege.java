@@ -16,6 +16,12 @@ public record Privilege(String type, String displayname, List<String> give, List
         );
     }
 
+    public String displayname() {
+        if (displayname == null) return type;
+        if (displayname.isEmpty()) return type;
+        return displayname;
+    }
+
     public static String getDisplayname(String type) {
         var result = Files.types.getString("types." + type + ".displayname");
         return result == null ? type : result;
