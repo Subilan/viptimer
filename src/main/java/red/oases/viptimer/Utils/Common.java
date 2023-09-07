@@ -111,10 +111,11 @@ public class Common {
         return input;
     }
 
-    public static String replaced(String input, String playername, String typename) {
+    public static String replaced(String input, String displayname, String playername) {
         return input
-                .replaceAll("\\$playername", playername)
-                .replaceAll("\\$displayname", Privilege.getDisplayname(typename));
+                .replaceAll("\\$displayname", displayname)
+                .replaceAll("\\$raw_displayname", MiniMessage.miniMessage().stripTags(displayname))
+                .replaceAll("\\$playername", playername);
     }
 
     public static List<String> getTypes() {

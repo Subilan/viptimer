@@ -89,22 +89,12 @@ public class Privileges {
     }
 
     public static void takePrivileges(String player, String type) {
-        Common.executeCommands(Privilege.of(type).take(), cmd -> Common.getReplaced(cmd, Map.of(
-                "\\$playername",
-                player,
-                "\\$displayname",
-                Privilege.getDisplayname(type)
-        )));
+        Common.executeCommands(Privilege.of(type).take(), cmd -> Common.replaced(cmd, Privilege.getDisplayname(type), player));
         if (!Data.deleteDelivery(player, type)) Logs.warn("Cannot delete delivery %s.%s".formatted(player, type));
     }
 
     public static void givePrivileges(String player, String type) {
-        Common.executeCommands(Privilege.of(type).give(), cmd -> Common.getReplaced(cmd, Map.of(
-                "\\$playername",
-                player,
-                "\\$displayname",
-                Privilege.getDisplayname(type)
-        )));
+        Common.executeCommands(Privilege.of(type).give(), cmd -> Common.replaced(cmd, Privilege.getDisplayname(type), player));
         if (!Data.createDelivery(player, type)) Logs.warn("Cannot create delivery %s.%s".formatted(player, type));
     }
 
