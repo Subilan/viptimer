@@ -10,7 +10,6 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.Nullable;
 import red.oases.viptimer.Extra.Enums.TimeUnit;
-import red.oases.viptimer.Objects.Privilege;
 import red.oases.viptimer.Objects.Record;
 
 import java.text.SimpleDateFormat;
@@ -102,13 +101,6 @@ public class Common {
             )) Logs.warn("Command execution failed: " + cmd);
             else Logs.info("Command execution succeeded: " + cmd);
         }
-    }
-
-    public static String getReplaced(String input, Map<String, String> replacement) {
-        for (var k : replacement.keySet()) {
-            input = input.replaceAll(k, replacement.get(k));
-        }
-        return input;
     }
 
     public static String replaced(String input, String displayname, String playername) {

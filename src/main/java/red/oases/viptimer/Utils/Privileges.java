@@ -5,8 +5,6 @@ import red.oases.viptimer.Extra.Enums.MessageType;
 import red.oases.viptimer.Extra.Enums.TaskAction;
 import red.oases.viptimer.Objects.Privilege;
 
-import java.util.Map;
-
 public class Privileges {
     public static void takeFromPlayer(String playername, String type, boolean withMessages) {
         takePrivilegesOrLater(playername, type);
