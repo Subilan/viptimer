@@ -19,7 +19,7 @@ public class CommandTake extends Command {
         var player = args[1];
         var type = args[2];
 
-        if (Common.notType(type)) {
+        if (Common.isNotType(type)) {
             Logs.send(sender, type + " 不是有效的类型。");
             return true;
         }

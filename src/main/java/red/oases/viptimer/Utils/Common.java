@@ -89,7 +89,7 @@ public class Common {
         return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date);
     }
 
-    public static boolean notType(String t) {
+    public static boolean isNotType(String t) {
         return !getTypes().contains(t);
     }
 
@@ -124,6 +124,9 @@ public class Common {
         return null;
     }
 
+    /**
+     * 返回由插件实例构建的命名空间独特键。一般用于 ItemStack、Entity 等的持久数据存储的相关标识。
+     */
     public static NamespacedKey key(String key) {
         var result = NamespacedKey.fromString(key, Const.plugin);
         assert result != null;
