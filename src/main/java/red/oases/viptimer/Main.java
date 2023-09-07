@@ -42,7 +42,7 @@ public final class Main extends JavaPlugin {
         Const.role = Role.of(Files.config.getString("role"));
         switch (Const.role) {
             case DISTRIBUTOR -> {
-                Common.updateDistribution();
+                Synchronization.updateDistribution();
                 distributionTimer.runAsync(1, TimeUnit.SECONDS);
                 Logs.info("已注册数据分发重复逻辑。");
             }

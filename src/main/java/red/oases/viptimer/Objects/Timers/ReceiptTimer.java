@@ -3,6 +3,7 @@ package red.oases.viptimer.Objects.Timers;
 import red.oases.viptimer.Utils.Common;
 import red.oases.viptimer.Utils.Data;
 import red.oases.viptimer.Utils.Logs;
+import red.oases.viptimer.Utils.Synchronization;
 
 import java.util.Date;
 
@@ -15,9 +16,9 @@ public class ReceiptTimer extends CancellableTimer {
     @Override
     protected void execute() {
         for (var d : Data.getDistributions()) {
-            Common.writeDistribution(d);
-            if (!Common.markReceived(d.dist_by())) {
-                Logs.severe("Cannot make incrementation to recv_count. dist_by=%s, recv_by=%s".formatted(d.dist_by(), Common.getInstanceId()));
+            Synchronization.writeDistribution(d);
+            if (!Synchronization.markReceived(d.dist_by())) {
+                Logs.severe("Cannot make incrementation to recv_count. dist_by=%s, recv_by=%s".formatted(d.dist_by(), Synchronization.getInstanceId()));
             }
             Logs.info("Distribution synchronized successfully - Updated at %s and received at %s."
                     .formatted(Common.formatDate(d.updated_at()), Common.formatDate(new Date())));

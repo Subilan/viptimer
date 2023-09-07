@@ -15,6 +15,7 @@ import org.bukkit.persistence.PersistentDataType;
 import red.oases.viptimer.Objects.Menu;
 import red.oases.viptimer.Utils.Common;
 import red.oases.viptimer.Utils.Const;
+import red.oases.viptimer.Utils.Delayed;
 import red.oases.viptimer.Utils.Logs;
 
 import static red.oases.viptimer.Utils.Common.t;
@@ -24,8 +25,8 @@ public class Events implements Listener {
     public static void onPlayerJoin(PlayerJoinEvent e) {
         var p = e.getPlayer();
 
-        Common.doDelayedActionFor(p);
-        Common.sendDelayedMessageFor(p);
+        Delayed.doDelayedActionFor(p);
+        Delayed.sendDelayedMessageFor(p);
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)

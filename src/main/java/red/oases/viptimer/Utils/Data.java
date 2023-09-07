@@ -45,7 +45,7 @@ public class Data {
     }
 
     public static boolean increaseRecvCount(String distId) {
-        return increment("receipt", "recv_count", "dist_by='%s' AND recv_by='%s'".formatted(distId, Common.getInstanceId()));
+        return increment("receipt", "recv_count", "dist_by='%s' AND recv_by='%s'".formatted(distId, Synchronization.getInstanceId()));
     }
 
     public static boolean increment(String table, String column, String whereCondition) {
@@ -170,7 +170,7 @@ public class Data {
         // Select all the distributions that were not received by the current instance.
         // This should only generate one or zero result.
         var distNotReceived = withResult(
-                "SELECT * FROM distribution WHERE NOT dist_by IN (SELECT dist_by FROM receipt WHERE recv_by='%s')".formatted(Common.getInstanceId()),
+                "SELECT * FROM distribution WHERE NOT dist_by IN (SELECT dist_by FROM receipt WHERE recv_by='%s')".formatted(Synchronization.getInstanceId()),
                 collectDistribution
         );
 
@@ -179,25 +179,25 @@ public class Data {
 
     public static boolean createDelivery(String playername, String type) {
         return execute("INSERT INTO delivery (playername, type, inst_id) VALUES ('%s', '%s', '%s')"
-                .formatted(playername, type, Common.getInstanceId()));
+                .formatted(playername, type, Synchronization.getInstanceId()));
     }
 
     public static boolean deleteDelivery(String playername, String type) {
         return execute("DELETE FROM delivery WHERE playername='%s' AND type='%s' AND inst_id='%s'"
-                .formatted(playername, type, Common.getInstanceId()));
+                .formatted(playername, type, Synchronization.getInstanceId()));
     }
 
     public static boolean hasDelivery(String playername, String type) {
         return hasResult("SELECT * FROM delivery WHERE playername='%s' AND type='%s' AND inst_id='%s'"
-                .formatted(playername, type, Common.getInstanceId()));
+                .formatted(playername, type, Synchronization.getInstanceId()));
     }
 
     public static boolean hasReceipt(String distId) {
-        return hasResult("SELECT * FROM receipt WHERE dist_by='%s' AND recv_by='%s'".formatted(distId, Common.getInstanceId()));
+        return hasResult("SELECT * FROM receipt WHERE dist_by='%s' AND recv_by='%s'".formatted(distId, Synchronization.getInstanceId()));
     }
 
     public static boolean createReceipt(String distId) {
-        return execute("INSERT INTO receipt (dist_by, recv_by) VALUES ('%s', '%s')".formatted(distId, Common.getInstanceId()));
+        return execute("INSERT INTO receipt (dist_by, recv_by) VALUES ('%s', '%s')".formatted(distId, Synchronization.getInstanceId()));
     }
 
 
