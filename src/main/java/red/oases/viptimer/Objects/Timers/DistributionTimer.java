@@ -2,7 +2,7 @@ package red.oases.viptimer.Objects.Timers;
 
 import org.bukkit.configuration.file.YamlConfiguration;
 import red.oases.viptimer.Utils.Files;
-import red.oases.viptimer.Utils.Synchronization;
+import red.oases.viptimer.Utils.Sync;
 
 
 /**
@@ -15,6 +15,6 @@ public class DistributionTimer extends CancellableTimer {
     protected void execute() {
         if (Files.types.saveToString().equals(YamlConfiguration.loadConfiguration(Files.ftypes).saveToString())) return;
         Files.types = YamlConfiguration.loadConfiguration(Files.ftypes);
-        Synchronization.updateDistribution();
+        Sync.updateDistribution();
     }
 }

@@ -6,7 +6,7 @@ import red.oases.viptimer.Objects.Distribution;
 
 import java.util.UUID;
 
-public class Synchronization {
+public class Sync {
     /**
      * 获取当前插件所在服务器对应的 instance id
      * 如果不存在则会创建，储存在 types.yml 内
