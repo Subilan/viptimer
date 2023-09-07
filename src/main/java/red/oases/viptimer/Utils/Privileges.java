@@ -66,7 +66,11 @@ public class Privileges {
                     Privilege.getDisplayname(type)
             );
 
-            case THANKS -> message = Common.replaced(Config.getString("thank-you-text", ""), playername, type);
+            case THANKS -> message = Common.replaced(
+                    Config.getString("thank-you-text", ""),
+                    Privilege.getDisplayname(type),
+                    playername
+            );
 
             default -> throw new IllegalArgumentException();
         }
