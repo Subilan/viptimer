@@ -39,4 +39,8 @@ public class Logs {
     public static void send(CommandSender sender, String text) {
         send(sender, Component.text(text).color(NamedTextColor.WHITE));
     }
+
+    public static void msend(CommandSender sender, String mini) {
+        send(sender, Common.tt(mini));
+    }
 }
