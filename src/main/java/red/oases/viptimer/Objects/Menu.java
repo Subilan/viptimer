@@ -67,7 +67,7 @@ public class Menu implements InventoryHolder {
         return playerhead;
     }
 
-    public ItemStack getWebsiteOpener() {
+    public ItemStack getPurchaseOpener() {
         var opener = SkullCreator.itemFromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODQ0NDk4YTBmZTI3ODk1NmUzZDA0MTM1ZWY0YjEzNDNkMDU0OGE3ZTIwOGM2MWIxZmI2ZjNiNGRiYzI0MGRhOCJ9fX0=");
         var meta = opener.getItemMeta();
         meta.displayName(
@@ -77,9 +77,8 @@ public class Menu implements InventoryHolder {
         );
         meta.lore(List.of(
                 t(),
-                t("由于 MOJANG 限制", NamedTextColor.GRAY),
-                t("请单击聊天框内链接", NamedTextColor.GRAY),
-                t("多谢理解~", NamedTextColor.GRAY)
+                t("单击获取充值页面链接", NamedTextColor.GRAY),
+                t("点击后即可前往充值", NamedTextColor.GRAY)
         ));
         meta.getPersistentDataContainer().set(Common.getItemStackIdentifier(), PersistentDataType.STRING, Const.II_WEBOPENER);
 
@@ -87,7 +86,7 @@ public class Menu implements InventoryHolder {
         return opener;
     }
 
-    public ItemStack getBook() {
+    public ItemStack getWikiOpener() {
         var book = new ItemStack(Material.BOOK);
         var meta = book.getItemMeta();
         meta.displayName(t("Oasis 会员手册", NamedTextColor.AQUA));
@@ -111,7 +110,7 @@ public class Menu implements InventoryHolder {
 
         var template = "ddddddddd" +
                 "droygcbpd" +
-                "drWyIcBpd" +
+                "drPyIcWpd" +
                 "droygcbpd" +
                 "ddddddddd";
 
@@ -125,8 +124,8 @@ public class Menu implements InventoryHolder {
                 case 'c' -> inv.setItem(i, new ItemStack(Material.CYAN_STAINED_GLASS_PANE));
                 case 'b' -> inv.setItem(i, new ItemStack(Material.BLUE_STAINED_GLASS_PANE));
                 case 'p' -> inv.setItem(i, new ItemStack(Material.PURPLE_STAINED_GLASS_PANE));
-                case 'B' -> inv.setItem(i, getBook());
-                case 'W' -> inv.setItem(i, getWebsiteOpener());
+                case 'W' -> inv.setItem(i, getWikiOpener());
+                case 'P' -> inv.setItem(i, getPurchaseOpener());
                 case 'I' -> inv.setItem(i, getPlayerInfo());
             }
         }
