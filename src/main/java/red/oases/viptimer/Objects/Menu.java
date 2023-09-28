@@ -89,12 +89,10 @@ public class Menu implements InventoryHolder {
     public ItemStack getWikiOpener() {
         var book = new ItemStack(Material.BOOK);
         var meta = book.getItemMeta();
-        meta.displayName(t("Oasis 会员手册", NamedTextColor.AQUA));
+        meta.displayName(t("Oasis 会员详情", NamedTextColor.AQUA));
         meta.lore(List.of(
                 t(),
-                t("在此查看可用的特权", NamedTextColor.GRAY),
-                t("以及对一些常见问题", NamedTextColor.GRAY),
-                t("的解答和帮助信息！", NamedTextColor.GRAY)
+                t("在此查看可用的特权！", NamedTextColor.GRAY)
         ));
         meta.getPersistentDataContainer().set(Common.getItemStackIdentifier(), PersistentDataType.STRING, Const.II_GUIDEBOOK);
         book.setItemMeta(meta);

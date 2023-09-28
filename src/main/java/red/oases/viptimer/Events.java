@@ -68,7 +68,7 @@ public class Events implements Listener {
                 p.playSound(Const.SOUND_ORB_PICKUP);
                 Logs.send(p,
                         t("[", NamedTextColor.GRAY).append(
-                                t("单击打开会员手册", NamedTextColor.AQUA, TextDecoration.BOLD)
+                                t("单击打开会员详情", NamedTextColor.AQUA, TextDecoration.BOLD)
                                         .clickEvent(ClickEvent.openUrl("https://wiki.oases.red/OASIS%E4%BC%9A%E5%91%98%E7%89%B9%E6%9D%83%E8%AF%A6%E6%83%85"))
                                         .hoverEvent(HoverEvent.showText(t("转到 Oasis Wiki", NamedTextColor.WHITE)))
                         ).append(t("]", NamedTextColor.GRAY))
