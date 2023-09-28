@@ -65,7 +65,7 @@ public class Events implements Listener {
 
             case Const.II_GUIDEBOOK -> {
                 inv.close();
-                p.playSound(Const.SOUND_ORB_PICKUP);
+                p.playSound(Const.SOUND_BOOK_PAGE_TURN);
                 Logs.send(p,
                         t("[", NamedTextColor.GRAY).append(
                                 t("单击打开会员详情", NamedTextColor.AQUA, TextDecoration.BOLD)
