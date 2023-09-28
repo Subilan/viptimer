@@ -11,8 +11,8 @@ public class Const {
 
     public static final String II_PLAYERHEAD_FREE = "oasis-playerhead-free";
     public static final String II_PLAYERHEAD_PREM = "oasis-playerhead-prem";
-    public static final String II_WEBOPENER = "oasis-webopener";
-    public static final String II_GUIDEBOOK = "oasis-guidebook";
+    public static final String II_PURCHASEOPENER = "oasis-purchase-opener";
+    public static final String II_WIKIOPENER = "oasis-wiki-opener";
     public static final Sound SOUND_LEVELUP = Sound.sound(Key.key("entity.player.levelup"), Sound.Source.AMBIENT, 1f, 1f);
     public static final Sound SOUND_ORB_PICKUP = Sound.sound(Key.key("entity.experience_orb.pickup"), Sound.Source.AMBIENT, 1f, 1f);
     public static final Sound SOUND_BOOK_PAGE_TURN = Sound.sound(Key.key("item.book.page_turn"), Sound.Source.AMBIENT, 1f, 1f);

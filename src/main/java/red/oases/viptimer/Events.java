@@ -51,7 +51,7 @@ public class Events implements Listener {
         var p = (Player) e.getWhoClicked();
 
         switch (identifier) {
-            case Const.II_WEBOPENER -> {
+            case Const.II_PURCHASEOPENER -> {
                 inv.close();
                 p.playSound(Const.SOUND_LEVELUP);
                 Logs.send(p,
@@ -63,7 +63,7 @@ public class Events implements Listener {
                 );
             }
 
-            case Const.II_GUIDEBOOK -> {
+            case Const.II_WIKIOPENER -> {
                 inv.close();
                 p.playSound(Const.SOUND_BOOK_PAGE_TURN);
                 Logs.send(p,

@@ -80,7 +80,7 @@ public class Menu implements InventoryHolder {
                 t("单击获取充值页面链接", NamedTextColor.GRAY),
                 t("点击后即可前往充值", NamedTextColor.GRAY)
         ));
-        meta.getPersistentDataContainer().set(Common.getItemStackIdentifier(), PersistentDataType.STRING, Const.II_WEBOPENER);
+        meta.getPersistentDataContainer().set(Common.getItemStackIdentifier(), PersistentDataType.STRING, Const.II_PURCHASEOPENER);
 
         opener.setItemMeta(meta);
         return opener;
@@ -94,7 +94,7 @@ public class Menu implements InventoryHolder {
                 t(),
                 t("在此查看可用的特权！", NamedTextColor.GRAY)
         ));
-        meta.getPersistentDataContainer().set(Common.getItemStackIdentifier(), PersistentDataType.STRING, Const.II_GUIDEBOOK);
+        meta.getPersistentDataContainer().set(Common.getItemStackIdentifier(), PersistentDataType.STRING, Const.II_WIKIOPENER);
         book.setItemMeta(meta);
         return book;
     }
